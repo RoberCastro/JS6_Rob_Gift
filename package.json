@@ -1,0 +1,31 @@
+{
+  "name": "rob-pro-dosssier",
+  "version": "0.0.1",
+  "description": "projet nomades",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoberCastro/JS6_Rob_Gift.git"
+  },
+  "author": "roberto castro anido",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoberCastro/JS6_Rob_Gift/issues"
+  },
+  "homepage": "https://github.com/RoberCastro/JS6_Rob_Gift#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.18.5",
+    "browserify": "^13.1.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-remove-html-comments": "^1.0.1",
+    "gulp-util": "^3.0.7",
+    "vinyl-source-stream": "^1.1.0",
+    "vinyl-transform": "^1.0.0"
+  }
+}
