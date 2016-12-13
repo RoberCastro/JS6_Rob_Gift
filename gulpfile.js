@@ -20,13 +20,16 @@ var reload = browserSync.reload;
 // Config of project folders
 var config = {
     pages     : ['dev/www/*.html'], 
+    images    : ['dev/src/images/*.jpg', 'dev/src/images/*.gif'],
+
     desDir:    './dist' /* répértoire de destination (prod) */
 }
 
 // Default Gulp starting task
 gulp.task("run",[
   'build-js',
-  'copy-html'
+  'copy-html',
+  'copy-images'
 ]);
 gulp.task('default', ['run'], function() {
     gulp.start('startServer', 'watch');
@@ -53,6 +56,13 @@ gulp.task("copy-html", function(){
         .pipe(reload({stream:true}));
 });
 
+// Task to copy images
+gulp.task("copy-images", function(){
+    return gulp.src(config.images)
+        .pipe(gulp.dest(config.desDir+'/src/images'))
+        .pipe(reload({stream:true}));
+});
+
 // Task to run local server
 gulp.task("startServer",  function() {
     browserSync.init({
@@ -66,5 +76,6 @@ gulp.task("startServer",  function() {
 gulp.task('watch', function() {
   gulp.watch('./dev/app/**/*.js', ['build-js']);     // watch js file changes
   gulp.watch('./dev/**/*.html', ['copy-html']);      // watch all html template file changes
+  gulp.watch('./dev/src/images/**/*', ['copy-images']); 
   //gulp.watch('PATH-OF-FILES-TO-WATCH', ['TASK-TO-RUN']);   // Simply uncomment exemple and set your own params (files-to-watch && task-to-run).
 })
