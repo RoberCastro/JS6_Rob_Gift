@@ -51,11 +51,26 @@ export class HomePage {
           <p>
             <label for="email">Email:</label> <input type="email" name="email" value="" placeholder="votreemail.ch"  /><br/>
             <label for="password">Password:</label> <input type="password" name="password" value=""  /><br/>
+          </p>
             <button>Login</button>
             <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
             <img id="drag1" src="./src/images/img_logo.gif" draggable="true" ondragstart="drag(event)">
-          </p>
+          <div>
+              <!-- Dropdown Trigger -->
+              <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a>
+
+              <!-- Dropdown Structure -->
+              <ul id='dropdown1' class='dropdown-content'>
+                <li><a href="#!">one</a></li>
+                <li><a href="#!">two</a></li>
+                <li class="divider"></li>
+                <li><a href="#!">three</a></li>
+              </ul>
+
+          </div>
+          <a class="btn" onclick="Materialize.toast('I am a toast', 4000)">Toast!</a>
+
         </form>
       </section>`;
 
@@ -65,7 +80,8 @@ export class HomePage {
     this.allowDrop(ev);
     this.drag(ev);
     this.drop(ev);
-    
+              Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
+
 
 
   }
