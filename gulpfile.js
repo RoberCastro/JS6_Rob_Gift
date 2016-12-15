@@ -23,7 +23,7 @@ var config = {
     css       : ['dev/src/materialize/css/*.min.css', 'dev/src/css/*.css'],
     fonts     : ['dev/src/materialize/fonts/**/*'],
     jsDep     : ['dev/src/materialize/js/*.min.js'],
-    images    : ['dev/src/images/*.jpg', 'dev/src/images/*.gif'],
+    images    : ['dev/src/images/*.*'],
     desDir:    './dist' /* répértoire de destination (prod) */
 }
 

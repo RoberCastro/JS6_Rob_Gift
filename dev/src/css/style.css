@@ -1,0 +1,93 @@
+.navBarTop{
+
+  background-color: #808000;
+
+}
+
+.grid-container{
+        width: 90%;
+        max-width: 1024px;
+        margin: 17px;
+        margin: 0 auto;
+}
+
+/*-- our cleafix hack -- */
+.row:before,
+.row:after {
+    content:"";
+    display: table ;
+    clear:both;
+    padding: 1px;
+
+}
+
+[class*='col-'] {
+    float: left;;
+    min-height: 1px;
+    width: 10%;
+    /*-- our gutter -- */
+    padding: 12px;
+    background-color: #808000;
+
+}
+
+
+
+.col-105{ width: 10%; }
+.col-1{ width: 20%;}
+.col-2{ width: 33.33%; }
+.col-3{ width: 50%;    }
+.col-4{ width: 66.66%; }
+.col-5{ width: 83.33%; }
+.col-6{ width: 100%;   }
+
+.outline{
+    outline: 1px solid #584C25;
+
+}
+
+/*-- some extra column content styling --*/
+[class*='col-'] > p {
+ background-color: #FFC2C2;
+ padding: 0;
+ margin: 0;
+ text-align: center;
+ color: white;
+}
+
+@media all and (max-width:800px){
+      .col-105{ width: 20%; }
+      .col-1{ width: 33.33%;    }
+      .col-2{ width: 50%;        }
+      .col-3{ width: 83.33%;    }
+      .col-4{ width: 100%;    }
+      .col-5{ width: 100%;    }
+      .col-6{ width: 100%;      }
+
+      .row .col-2:last-of-type{
+          width: 100%;
+      }
+
+      .row .col-5 ~ .col-1{
+          width: 100%;
+      }
+  }
+
+  @media all and (max-width:650px){
+    .col-105{ width: 25%; }
+    .col-1{ width: 50%;        }
+    .col-2{ width: 100%;    }
+    .col-3{ width: 100%;    }
+    .col-4{ width: 100%;    }
+    .col-5{ width: 100%;    }
+    .col-6{ width: 100%;      }
+}
+
+img{
+  max-height: 150px;
+  margin: 0 auto;
+}
+.center {
+  display: flex;
+  justify-content: center;
+}
