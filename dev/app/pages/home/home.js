@@ -77,14 +77,20 @@ export class HomePage {
 
              <div class="row" >
                 <div class="col-1"><p>Brandy</p></div>
-                <div class="col-1 center" >
-                  <img id="imgClick1br" src="./src/images/brandy1.png">
+                <div class="col-1 center parent" >
+                  <img class="child" id="imgClick1br" src="./src/images/brandy1.png">
+                  <div class="ui vertical animated button" tabindex="0">
+                    <div class="hidden content">Shop</div>
+                    <div class="visible content">
+                      <i class="shop icon"></i>
+                    </div>
+                  </div>
                 </div>
-                <div id="imgClick2br" class="col-1 center">
-                  <img src="./src/images/brandy-casajuana-100-anos-reserva.jpeg">
+                <div class="col-1 center">
+                  <img id="imgClick2br" src="./src/images/brandy-casajuana-100-anos-reserva.jpeg">
                 </div>
-                <div id="imgClick3br" class="col-1 center">
-                  <img src="./src/images/barbadillo.jpeg">
+                <div  class="col-1 center">
+                  <img  id="imgClick3br" src="./src/images/barbadillo.jpeg">
                 </div>
                 <div class="col-1"><p id="textExplicatifBrandy"></p></div>
              </div>
@@ -255,7 +261,7 @@ export class HomePage {
 
   chooseProduct(){
 
-    var classname = document.getElementsByClassName("center");
+  /*  var classname = document.getElementsByClassName("center");
 
     var myFunction = function(evenement) {
       console.log("target", evenement.target.id);
@@ -265,17 +271,34 @@ export class HomePage {
           element.addEventListener('click', myFunction);
         });
 
-
     $(document).ready(function() {
       $("a").click(function(event) {
        alert(event.target.id+" and "+$(event.target).attr('class'));
       });
-    });
+    });*/
+/*
+    if(evenement.currentTarget.getAttribute('class') === 'row')
+    {
+      (evenement)=>{
+      var test = evenement.target.id;
+      switch(test.tagName) {
+        case 'imgClick1br':
+            Materialize.toast('BIEN', 4000)
+            break;
+        case 'imgClick2br':
+            Materialize.toast('BIEN', 4000)
+            break;
+        default:
+            Materialize.toast('FAUX', 4000)
+          }
+        }
+
+      console.log("target", evenement.target.id);
+      console.log(evenement.target.id);
+
+    }*/
+
     document.getElementById('imgClick1br').addEventListener('click', ()=>{
-      if(event.currentTarget.getAttribute('class') === 'row')
-      {
-        console.log("target", evenement.target.id);
-      }
     document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le premier brandy de la liste";})
 
     document.getElementById('imgClick2br').addEventListener('click', ()=>{
