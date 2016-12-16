@@ -75,78 +75,123 @@ export class HomePage {
                  <div class="col-105"><p>col-1</p></div>
              </div>
 
+<!--First line of products-->
              <div class="row" >
                 <div class="col-1"><p>Brandy</p></div>
-                <div class="col-1 center parent" >
-                  <img class="child" id="imgClick1br" src="./src/images/brandy1.png">
-                  <div class="ui vertical animated button" tabindex="0">
-                    <div class="hidden content">Shop</div>
-                    <div class="visible content">
-                      <i class="shop icon"></i>
-                    </div>
-                  </div>
+
+                <div class="col-1 center" >
+                  <figure style= "margin:0;">
+                    <img id="imgClick1br" src="./src/images/brandy1.png">
+                    <div id="ligneBt"><button id="moinsbr+1">--</button><button id="moinsbr+1">+</button></div>
+                  </figure>
                 </div>
                 <div class="col-1 center">
-                  <img id="imgClick2br" src="./src/images/brandy-casajuana-100-anos-reserva.jpeg">
+                  <figure style= "margin:0;">
+                      <img id="imgClick2br" src="./src/images/brandy-casajuana-100-anos-reserva.jpeg">
+                      <div class="ligneBt"><button id="moinsbr+1">--</button><button id="plusbr+1">+</button></div>
+                  </figure>
                 </div>
                 <div  class="col-1 center">
-                  <img  id="imgClick3br" src="./src/images/barbadillo.jpeg">
+                   <figure style= "margin:0;">
+                      <img  id="imgClick3br" src="./src/images/barbadillo.jpeg">
+                      <div class="ligneBt"><button id="moinsbr+1">--</button><button id="plusbr+1">+</button></div>
+                   </figure>
                 </div>
                 <div class="col-1"><p id="textExplicatifBrandy"></p></div>
              </div>
+<!--Second line of products-->
 
              <div class="row" >
                 <div class="col-1"><p>Vinos</p></div>
                 <div class="col-1 center">
-                  <img  id="imgClick1wine" src="./src/images/vin1.jpg">
+                  <figure style= "margin:0;">
+                      <img  id="imgClick1wine" src="./src/images/vin1.jpg">
+                      <div class="ligneBt"><button id="moinsW1">--</button><button id="plusW1">+</button></div>
+                  </figure>
                 </div>
                 <div class="col-1 center">
-                  <img  id="imgClick2wine" src="./src/images/vin2.jpg">
+                  <figure style= "margin:0;">
+                      <img  id="imgClick2wine" src="./src/images/vin2.jpg">
+                      <div class="ligneBt"><button id="moinsW2">--</button><button id="plusW2">+</button></div>
+                  </figure>
                 </div>
                 <div class="col-1 center">
-                  <img id="imgClick3wine" src="./src/images/vin3.jpg">
+                  <figure style= "margin:0;">
+                      <img id="imgClick3wine" src="./src/images/vin3.jpg">
+                      <div class="ligneBt"><button id="moinsW3">--</button><button id="plusW3">+</button></div>
+                  </figure>
                 </div>
                 <div class="col-1"><p id="textExplicatifWine"></p></div>
              </div>
 
+<!--Third line of products-->
              <div class="row" >
                 <div class="col-1"><p>Aceite de oliva</p></div>
                 <div class="col-1 center">
-                  <img  id="imgClick1oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick1oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
+                        <div class="ligneBt"><button id="moinsO1">--</button><button id="plusO1">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1 center">
-                  <img  id="imgClick2oil" src="./src/images/maria-de-la-o-seleccion-gourmet-500-ml.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick2oil" src="./src/images/maria-de-la-o-seleccion-gourmet-500-ml.jpeg">
+                        <div class="ligneBt"><button id="moinsO2">--</button><button id="plusO2">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1 center">
-                  <img  id="imgClick3oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick3oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
+                        <div class="ligneBt"><button id="moinsO3">--</button><button id="plusO3">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1"><p id="textExplicatifOil"></p></div>
              </div>
 
+<!--Fourth line of products-->
              <div class="row" >
                 <div class="col-1"><p>Queso</p></div>
                 <div class="col-1 center">
-                  <img  id="imgClick1ch" src="./src/images/cogman-semicurado-puro-oveja.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick1ch" src="./src/images/cogman-semicurado-puro-oveja.jpeg">
+                        <div class="ligneBt"><button id="moinsCh1">--</button><button id="plusCh1">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1 center">
-                  <img  id="imgClick2ch" src="./src/images/queso-curado-al-romero-tomelloso.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick2ch" src="./src/images/queso-curado-al-romero-tomelloso.jpeg">
+                        <div class="ligneBt"><button id="moinsCh2">--</button><button id="plusCh2">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1 center">
-                  <img  id="imgClick3ch" src="./src/images/montalvo-curado-en-aceite.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick3ch" src="./src/images/montalvo-curado-en-aceite.jpeg">
+                        <div class="ligneBt"><button id="moinsCh3">--</button><button id="plusCh3">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1"><p id="textExplicatifCheese"></p></div>
              </div>
 
+<!--Fifth line of products-->
              <div class="row" >
                 <div class="col-1"><p>Jamon ibérico</p></div>
                 <div class="col-1 center">
-                  <img  id="imgClick1ham" src="./src/images/jamon1.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick1ham" src="./src/images/jamon1.jpeg">
+                        <div class="ligneBt"><button id="moinsH1">--</button><button id="plusH1">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1 center">
-                  <img  id="imgClick2ham" src="./src/images/jamon2.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick2ham" src="./src/images/jamon2.jpeg">
+                        <div class="ligneBt"><button id="moinsH2">--</button><button id="plusH2">+</button></div>
+                    </figure>
                 </div>
                 <div class="col-1 center">
-                  <img  id="imgClick3ham" src="./src/images/jamon3.jpeg">
+                    <figure style= "margin:0;">
+                        <img  id="imgClick3ham" src="./src/images/jamon3.jpeg">
+                        <div class="ligneBt"><button id="moinsH3">--</button><button id="plusH3">+</button></div>
+                    </figure>
                 </div>
                 <div  id="imgClick1" class="col-1"><p id="textExplicatifHam"></p></div>
              </div>

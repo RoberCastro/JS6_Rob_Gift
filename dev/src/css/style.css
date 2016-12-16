@@ -141,3 +141,8 @@ img{
 	position:relative;
 	top:1px;
 }
+
+.ligneBt{
+  display: block;
+  text-align: center;
+  clear:both;}
