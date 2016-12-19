@@ -63,13 +63,12 @@ export class HomePage {
 
          <div class="grid-container outline">
              <div id="buyList" class="row">
-                <div class="col-105">
-                   <figure style= "margin:0;">
-                     <img id="imgPan1" src="./src/images/brandy1.png">
-                   </figure>
-                   <p>Quantité</p>
-                </div>
+               <div class="col-105">
+                 <p>Total de votre coffre</p></br>
+                  <p>Quantité</p>
+               </div>
              </div>
+
 
             <div id="productList" >
 
@@ -79,19 +78,19 @@ export class HomePage {
 
                   <div class="col-1 center" >
                     <figure style= "margin:0;">
-                      <img id="imgClick1br" src="./src/images/brandy1.png">
+                      <img data-id="imgClick1br" src="./src/images/brandy1.png">
                       <div id="ligneBt"><button id="moinsB1">--</button><button id="moinsB1">+</button></div>
                     </figure>
                   </div>
                   <div class="col-1 center">
                     <figure style= "margin:0;">
-                        <img id="imgClick2br" src="./src/images/brandy-casajuana-100-anos-reserva.jpeg">
+                        <img data-id="imgClick2br" src="./src/images/brandy-casajuana-100-anos-reserva.jpeg">
                         <div class="ligneBt"><button id="moinsB2">--</button><button id="plusB2">+</button></div>
                     </figure>
                   </div>
                   <div  class="col-1 center">
                      <figure style= "margin:0;">
-                        <img  id="imgClick3br" src="./src/images/barbadillo.jpeg">
+                        <img  data-id="imgClick3br" src="./src/images/barbadillo.jpeg">
                         <div class="ligneBt"><button id="moinsB3">--</button><button id="plusB3">+</button></div>
                      </figure>
                   </div>
@@ -127,19 +126,19 @@ export class HomePage {
                   <div class="col-1"><p>Aceite de oliva</p></div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick1oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
+                          <img  data-id="imgClick1oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
                           <div class="ligneBt"><button id="moinsO1">--</button><button id="plusO1">+</button></div>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick2oil" src="./src/images/maria-de-la-o-seleccion-gourmet-500-ml.jpeg">
+                          <img  data-id="imgClick2oil" src="./src/images/maria-de-la-o-seleccion-gourmet-500-ml.jpeg">
                           <div class="ligneBt"><button id="moinsO2">--</button><button id="plusO2">+</button></div>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick3oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
+                          <img  data-id="imgClick3oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
                           <div class="ligneBt"><button id="moinsO3">--</button><button id="plusO3">+</button></div>
                       </figure>
                   </div>
@@ -151,19 +150,19 @@ export class HomePage {
                   <div class="col-1"><p>Queso</p></div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick1ch" src="./src/images/cogman-semicurado-puro-oveja.jpeg">
+                          <img  data-id="imgClick1ch" src="./src/images/cogman-semicurado-puro-oveja.jpeg">
                           <div class="ligneBt"><button id="moinsCh1">--</button><button id="plusCh1">+</button></div>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick2ch" src="./src/images/queso-curado-al-romero-tomelloso.jpeg">
+                          <img  data-id="imgClick2ch" src="./src/images/queso-curado-al-romero-tomelloso.jpeg">
                           <div class="ligneBt"><button id="moinsCh2">--</button><button id="plusCh2">+</button></div>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick3ch" src="./src/images/montalvo-curado-en-aceite.jpeg">
+                          <img  data-id="imgClick3ch" src="./src/images/montalvo-curado-en-aceite.jpeg">
                           <div class="ligneBt"><button id="moinsCh3">--</button><button id="plusCh3">+</button></div>
                       </figure>
                   </div>
@@ -175,19 +174,19 @@ export class HomePage {
                   <div class="col-1"><p>Jamon ibérico</p></div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick1ham" src="./src/images/jamon1.jpeg">
+                          <img  data-id="imgClick1ham" src="./src/images/jamon1.jpeg">
                           <div class="ligneBt"><button id="moinsH1">--</button><button id="plusH1">+</button></div>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick2ham" src="./src/images/jamon2.jpeg">
+                          <img  data-id="imgClick2ham" src="./src/images/jamon2.jpeg">
                           <div class="ligneBt"><button id="moinsH2">--</button><button id="plusH2">+</button></div>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
-                          <img  id="imgClick3ham" src="./src/images/jamon3.jpeg">
+                          <img  data-id="imgClick3ham" src="./src/images/jamon3.jpeg">
                           <div class="ligneBt"><button id="moinsH3">--</button><button id="plusH3">+</button></div>
                       </figure>
                   </div>
@@ -305,11 +304,6 @@ export class HomePage {
 
   chooseProduct(){
 
-    //Iniciate the quantity to 0
-    var qProduct;
-    //Iniciate the variable Q to the value in the html
-    var Q;
-
     if(document.getElementById('productList'))
     {
 
@@ -317,63 +311,135 @@ export class HomePage {
         'click',
         event=>{
 
-          //If the click is in a button
-          if(event.target.tagName == 'BUTTON'){
-            //console.log(event)
+          this.clickFigure(event);
+          //console.log(event)
+          this.clickPlusLess(event);
 
-            //If the product don't exist in the list
-            if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')) && event.target.innerHTML == '+'){
+          }
+        )
+      }
+    }
 
-              //Create the div wwith the product and its quantity
-              var productToList = `
-              <div id="${event.target.parentElement.previousElementSibling.getAttribute('data-id')}" class="col-105">
-                 <figure style= "margin:0;">
-                   <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
-                 </figure>
-                 <p>1</p>
-              </div>
-              `
-              //Add the html content to the div buyList
-              document.getElementById('buyList').insertAdjacentHTML('beforeend',productToList)
+    clickPlusLess(event){
 
-            //If the product exist in the list
-          }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
+      //Iniciate the quantity to 0
+      var qProduct;
+      //Iniciate the variable Q to the value in the html
+      var Q;
+      //If the click is in a button
+      if(event.target.tagName == 'BUTTON'){
+        //console.log(event)
 
-              //console.log(event)
-              //console.log(event.target.parentElement.previousElementSibling.nextElementSibling.firstChild) --> Other way to select minus button
+        //If the product don't exist in the list
+        if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')) && event.target.innerHTML == '+'){
 
-              Q = parseInt(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML, 10);
+          //Create the div wwith the product and its quantity
+          var productToList = `
+          <div id="${event.target.parentElement.previousElementSibling.getAttribute('data-id')}" class="col-105">
+             <figure style= "margin:0;">
+               <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
+             </figure>
+             <p>1</p>
+          </div>
+          `
+          //Add the html content to the div buyList
+          document.getElementById('buyList').insertAdjacentHTML('beforeend',productToList)
 
-              //If the click is on the plus button
-              if(event.target.innerHTML == '+'){
+        //If the product exist in the list
+      }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
 
-                qProduct = Q + 1;
-                  document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
+          //console.log(event)
+          //console.log(event.target.parentElement.previousElementSibling.nextElementSibling.firstChild) --> Other way to select minus button
 
-              //If the click is on the less button
-              }else if(event.target.innerHTML == '--'){
+          Q = parseInt(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML, 10);
 
-                  //if the quantity is 1 we take off the div of the product from the productList
-                  if(Q===1){
+          //If the click is on the plus button
+          if(event.target.innerHTML == '+'){
 
-                    var idPro = event.target.parentElement.previousElementSibling.getAttribute('data-id');
-                    var pr = document.getElementById(idPro);
-                    pr.parentNode.removeChild(pr);
+            qProduct = Q + 1;
+              document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
 
-                  //if the quantity is more than 1 we take one unity from the quantity of the product
-                  }else if(Q>1){
-                    //console.log(event)
-                    qProduct = Q - 1;
-                    document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
-                    //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
+          //If the click is on the less button
+          }else if(event.target.innerHTML == '--'){
 
-                  }
-                }
+              //if the quantity is 1 we take off the div of the product from the productList
+              if(Q===1){
+
+                var idPro = event.target.parentElement.previousElementSibling.getAttribute('data-id');
+                var pr = document.getElementById(idPro);
+                pr.parentNode.removeChild(pr);
+
+              //if the quantity is more than 1 we take one unity from the quantity of the product
+              }else if(Q>1){
+                //console.log(event)
+                qProduct = Q - 1;
+                document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
+                //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
+
               }
             }
           }
-        )
+        }
     }
+
+    clickFigure(event){
+
+      if(event.target.tagName == 'IMG'){
+
+        var typeProd = event.target.getAttribute('data-id');
+
+        switch(typeProd){
+
+          case 'imgClick1br':
+            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le premier brandy de la liste"
+            break;
+          case 'imgClick2br':
+            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le deuxième brandy de la liste"
+            break;
+          case 'imgClick3br':
+            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le troisième brandy de la liste"
+            break;
+          case 'imgClick1wine':
+            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le premier vin de la liste"
+            break;
+          case 'imgClick2wine':
+            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le deuxième vin de la liste"
+            break;
+          case 'imgClick3wine':
+            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le troisième vin de la liste"
+            break;
+          case 'imgClick1oil':
+            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le premier huile de la liste"
+            break;
+          case 'imgClick2oil':
+            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le deuxième huile de la liste"
+            break;
+          case 'imgClick3oil':
+            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le troisième huile de la liste"
+          break;
+          case 'imgClick1ch':
+            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le troisième huile de la liste"
+            break;
+          case 'imgClick2ch':
+            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le premier fromage de la liste"
+            break;
+          case 'imgClick3ch':
+            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le troisième fromage de la liste"
+            break;
+          case 'imgClick1ham':
+          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le premier jambon de la liste"
+            break;
+          case 'imgClick2ham':
+          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le deuxième jambon de la liste"
+            break;
+          case 'imgClick3ham':
+          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le troisième jambon de la liste"
+            break;
+          default:
+            alert("Ce produit n'a pas de description");
+        }
+    }
+  }
 
   /*  var classname = document.getElementsByClassName("center");
 
@@ -472,8 +538,6 @@ export class HomePage {
 
     })*/
 
-  }
-
   /*delElem(parent, child)
       {
         var obj = document.getElementById(parent);
@@ -485,7 +549,6 @@ export class HomePage {
   loadEventUI(){
     let loginForm = document.getElementsByTagName("form")[0];
     loginForm.addEventListener("submit",  event => this.onLogin(event), false)
-
 
 
   }
@@ -502,7 +565,6 @@ export class HomePage {
       }
     }
   }
-
 
 
 }
