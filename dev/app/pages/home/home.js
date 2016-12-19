@@ -306,7 +306,7 @@ export class HomePage {
   chooseProduct(){
 
     //Iniciate the quantity to 0
-    var qProduct = 0;
+    var qProduct;
     //Iniciate the variable Q to the value in the html
     var Q;
 
@@ -318,10 +318,11 @@ export class HomePage {
         event=>{
 
           //If the click is in a button
-          if(event.target.innerHTML == '+'){
-            console.log(event)
+          if(event.target.tagName == 'BUTTON'){
+            //console.log(event)
+
             //If the product don't exist in the list
-            if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
+            if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')) && event.target.innerHTML == '+'){
 
               //Create the div wwith the product and its quantity
               var productToList = `
@@ -334,46 +335,34 @@ export class HomePage {
               `
               //Add the html content to the div buyList
               document.getElementById('buyList').insertAdjacentHTML('beforeend',productToList)
-              console.log(event)
 
             //If the product exist in the list
-            }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
+          }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
 
-              //console.log(event.target.parentElement.previousElementSibling.nextElementSibling.firstChild)
               //console.log(event)
-
+              //console.log(event.target.parentElement.previousElementSibling.nextElementSibling.firstChild) --> Other way to select minus button
 
               Q = parseInt(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML, 10);
-              console.log(event)
 
-              if(event.target.innerHTML == '+'){
               //If the click is on the plus button
+              if(event.target.innerHTML == '+'){
 
                 qProduct = Q + 1;
-                document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
-                console.log(event)
-
-              }
-              if(event.target.id == 'moinsW1'){
+                  document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
 
               //If the click is on the less button
+              }else if(event.target.innerHTML == '--'){
 
                   //if the quantity is 1 we take off the div of the product from the productList
                   if(Q===1){
 
-                    //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
-                    console.log(event)
-                    var ul = document.getElementById('buyList');
                     var idPro = event.target.parentElement.previousElementSibling.getAttribute('data-id');
-                    console.log(idPro)
                     var pr = document.getElementById(idPro);
-                    console.log(pr)
-
-                    this.delElem(ul,pr);
+                    pr.parentNode.removeChild(pr);
 
                   //if the quantity is more than 1 we take one unity from the quantity of the product
                   }else if(Q>1){
-                    console.log(event)
+                    //console.log(event)
                     qProduct = Q - 1;
                     document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
                     //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
@@ -485,13 +474,13 @@ export class HomePage {
 
   }
 
-  delElem(parent, child)
+  /*delElem(parent, child)
       {
         var obj = document.getElementById(parent);
         var old = document.getElementById(child);
 
         obj.removeChild(old);
-      }
+      }*/
 
   loadEventUI(){
     let loginForm = document.getElementsByTagName("form")[0];
