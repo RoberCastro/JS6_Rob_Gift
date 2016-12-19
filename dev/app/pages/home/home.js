@@ -73,7 +73,7 @@ export class HomePage {
 
             <div id="productList" >
 
-  <!--First line of products-->
+<!--First line of products-->
                <div class="row" >
                   <div class="col-1"><p>Brandy</p></div>
 
@@ -97,7 +97,7 @@ export class HomePage {
                   </div>
                   <div class="col-1"><p id="textExplicatifBrandy"></p></div>
                </div>
-  <!--Second line of products-->
+<!--Second line of products-->
 
                <div class="row" >
                   <div class="col-1"><p>Vinos</p></div>
@@ -122,7 +122,7 @@ export class HomePage {
                   <div class="col-1"><p id="textExplicatifWine"></p></div>
                </div>
 
-  <!--Third line of products-->
+<!--Third line of products-->
                <div class="row" >
                   <div class="col-1"><p>Aceite de oliva</p></div>
                   <div class="col-1 center">
@@ -170,7 +170,7 @@ export class HomePage {
                   <div class="col-1"><p id="textExplicatifCheese"></p></div>
                </div>
 
-  <!--Fifth line of products-->
+<!--Fifth line of products-->
                <div class="row" >
                   <div class="col-1"><p>Jamon ibérico</p></div>
                   <div class="col-1 center">
@@ -305,38 +305,85 @@ export class HomePage {
 
   chooseProduct(){
 
+    //Iniciate the quantity to 0
+    var qProduct = 0;
+    //Iniciate the variable Q to the value in the html
+    var Q;
+
     if(document.getElementById('productList'))
     {
+
       document.getElementById('productList').addEventListener(
         'click',
         event=>{
-          //console.log(event.target.tagName)
-          if(event.target.tagName == 'BUTTON'){
-            console.log(event)
 
+          //If the click is in a button
+          if(event.target.innerHTML == '+'){
+            console.log(event)
+            //If the product don't exist in the list
             if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
 
-              document.getElementById('buyList').insertAdjacentHTML('beforeend',
+              //Create the div wwith the product and its quantity
+              var productToList = `
+              <div id="${event.target.parentElement.previousElementSibling.getAttribute('data-id')}" class="col-105">
+                 <figure style= "margin:0;">
+                   <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
+                 </figure>
+                 <p>1</p>
+              </div>
+              `
+              //Add the html content to the div buyList
+              document.getElementById('buyList').insertAdjacentHTML('beforeend',productToList)
+              console.log(event)
 
-                `
-                <div id="${event.target.parentElement.previousElementSibling.getAttribute('data-id')}" class="col-105">
-                   <figure style= "margin:0;">
-                     <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
-                   </figure>
-                   <p>1</p>
-                </div>
-                `
-              )
-            }else{
-              document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML =
+            //If the product exist in the list
+            }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
 
-              parseint(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML,10)+1
+              //console.log(event.target.parentElement.previousElementSibling.nextElementSibling.firstChild)
+              //console.log(event)
 
+
+              Q = parseInt(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML, 10);
+              console.log(event)
+
+              if(event.target.innerHTML == '+'){
+              //If the click is on the plus button
+
+                qProduct = Q + 1;
+                document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
+                console.log(event)
+
+              }
+              if(event.target.id == 'moinsW1'){
+
+              //If the click is on the less button
+
+                  //if the quantity is 1 we take off the div of the product from the productList
+                  if(Q===1){
+
+                    //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
+                    console.log(event)
+                    var ul = document.getElementById('buyList');
+                    var idPro = event.target.parentElement.previousElementSibling.getAttribute('data-id');
+                    console.log(idPro)
+                    var pr = document.getElementById(idPro);
+                    console.log(pr)
+
+                    this.delElem(ul,pr);
+
+                  //if the quantity is more than 1 we take one unity from the quantity of the product
+                  }else if(Q>1){
+                    console.log(event)
+                    qProduct = Q - 1;
+                    document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
+                    //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
+
+                  }
+                }
+              }
             }
-
           }
-        }
-      )
+        )
     }
 
   /*  var classname = document.getElementsByClassName("center");
@@ -437,6 +484,14 @@ export class HomePage {
     })*/
 
   }
+
+  delElem(parent, child)
+      {
+        var obj = document.getElementById(parent);
+        var old = document.getElementById(child);
+
+        obj.removeChild(old);
+      }
 
   loadEventUI(){
     let loginForm = document.getElementsByTagName("form")[0];
