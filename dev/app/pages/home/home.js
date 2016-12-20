@@ -26,6 +26,9 @@ export class HomePage {
     var priceCommande;
     var timesCommande;
     var totalPricePackage;
+    var localOrder = {};
+
+    console.log(localOrder)
     // remove all section before display UI
     if(document.getElementsByTagName("section")[0]){
       document.getElementsByTagName("section")[0].parentNode.removeChild(document.getElementsByTagName("section")[0])
@@ -39,7 +42,7 @@ export class HomePage {
     // add page skeleton in body
     this.appBody.insertAdjacentHTML( 'afterbegin', pageSkeleton )
     this.loadEventUI()
-    this.chooseProduct(vQ,priceProduct,priceCommande,timesCommande, totalPricePackage)
+    this.chooseProduct(vQ,priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder)
     this.clickCommandeQt(priceCommande,timesCommande, totalPricePackage)
 
     Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
@@ -47,7 +50,7 @@ export class HomePage {
 
   }
 
-  chooseProduct(vQ, priceProduct,priceCommande,timesCommande, totalPricePackage){
+  chooseProduct(vQ, priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder){
 
     if(document.getElementById('productList'))
     {
@@ -57,14 +60,14 @@ export class HomePage {
 
           this.clickFigure(event);
           //console.log(event)
-          this.clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage);
+          this.clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage, localOrder);
 
           }
         )
       }
     }
 
-  clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage){
+  clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage, localOrder){
 
       //Iniciate the quantity to 0
       var qProduct;
@@ -74,10 +77,12 @@ export class HomePage {
         document.getElementById('timesCommande').innerHTML = 1;
       }else{
         priceCommande = parseInt(document.getElementById('totalPriceCommande').innerHTML,10);
+
       }
 
       //If the click is in a button
       if(event.target.tagName == 'BUTTON'){
+        //localStorage.setItem("localOrder",JSON.stringify(localOrder));
 
         //Convert the html text in an integer number so we can operate with it
         priceProduct = parseInt(event.target.parentElement.nextElementSibling.innerHTML, 10);
@@ -94,10 +99,18 @@ export class HomePage {
              <p>1</p>
           </div>
           `
+          localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
+            idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
+            timesPro: 1,
+            pricePro: priceProduct
+          };
+          console.log(localOrder);
           //Add the html content to the div buyList
           document.getElementById('buyList').insertAdjacentHTML('beforeend', productToList)
           priceCommande = priceCommande + priceProduct;
           this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
+
+
 
         //If the product exist in the list
         }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
@@ -110,6 +123,13 @@ export class HomePage {
             qProduct = vQ + 1;
             priceCommande = priceCommande + priceProduct;
             document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
+
+            localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
+              idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
+              timesPro: qProduct,
+              pricePro: priceProduct
+            };
+            console.log(localOrder);
 
             this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
           //If the click is on the less button
@@ -131,6 +151,12 @@ export class HomePage {
                 qProduct = vQ - 1;
                 document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
                 //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
+                localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
+                  idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
+                  timesPro: qProduct,
+                  pricePro: priceProduct
+                };
+                console.log(localOrder);
 
                 this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
               }
