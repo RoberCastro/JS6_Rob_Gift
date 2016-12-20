@@ -6,7 +6,7 @@
 * @Last modified time: 13-12-2016
 */
 
-//import { UserPage } from '../../pages/user/user';
+import { commande } from '../../helpers/commande';
 
 export class HomePage {
 
@@ -15,10 +15,17 @@ export class HomePage {
     this.pageTitle = 'Hello world! Hello Roberto';
     this.initUI();
 
-
   }
 
   initUI(){
+
+    //Iniciate the variable Q to the value in the html
+    var vQ;
+    //Iniciate the variable priceProduct
+    var priceProduct;
+    var priceCommande;
+    var timesCommande;
+    var totalPricePackage;
     // remove all section before display UI
     if(document.getElementsByTagName("section")[0]){
       document.getElementsByTagName("section")[0].parentNode.removeChild(document.getElementsByTagName("section")[0])
@@ -27,8 +34,252 @@ export class HomePage {
       $(".button-collapse").sideNav();
     })
     // create page skeleton
-    let pageSkeleton = `
-      <section>
+    let pageSkeleton = this.skeletonBase();
+
+    // add page skeleton in body
+    this.appBody.insertAdjacentHTML( 'afterbegin', pageSkeleton )
+    this.loadEventUI()
+    this.chooseProduct(vQ,priceProduct,priceCommande,timesCommande, totalPricePackage)
+    this.clickCommandeQt(priceCommande,timesCommande, totalPricePackage)
+
+    Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
+
+
+  }
+
+  chooseProduct(vQ, priceProduct,priceCommande,timesCommande, totalPricePackage){
+
+    if(document.getElementById('productList'))
+    {
+      document.getElementById('productList').addEventListener(
+        'click',
+        event=>{
+
+          this.clickFigure(event);
+          //console.log(event)
+          this.clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage);
+
+          }
+        )
+      }
+    }
+
+  clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage){
+
+      //Iniciate the quantity to 0
+      var qProduct;
+
+      if(document.getElementById('buyList').lastElementChild.firstElementChild.tagName !== "FIGURE"){
+        priceCommande = 0;
+        document.getElementById('timesCommande').innerHTML = 1;
+      }else{
+        priceCommande = parseInt(document.getElementById('totalPriceCommande').innerHTML,10);
+      }
+
+      //If the click is in a button
+      if(event.target.tagName == 'BUTTON'){
+
+        //Convert the html text in an integer number so we can operate with it
+        priceProduct = parseInt(event.target.parentElement.nextElementSibling.innerHTML, 10);
+
+        //If the product don't exist in the list
+        if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')) && event.target.innerHTML == '+'){
+
+          //Create the div wwith the product and its quantity
+          var productToList = `
+          <div id="${event.target.parentElement.previousElementSibling.getAttribute('data-id')}" class="col-105">
+             <figure style= "margin:0;">
+               <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
+             </figure>
+             <p>1</p>
+          </div>
+          `
+          //Add the html content to the div buyList
+          document.getElementById('buyList').insertAdjacentHTML('beforeend', productToList)
+          priceCommande = priceCommande + priceProduct;
+          this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
+
+        //If the product exist in the list
+        }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
+
+          vQ = parseInt(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML, 10);
+
+          //If the click is on the plus button
+          if(event.target.innerHTML == '+'){
+
+            qProduct = vQ + 1;
+            priceCommande = priceCommande + priceProduct;
+            document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
+
+            this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
+          //If the click is on the less button
+          }else if(event.target.innerHTML == '--'){
+
+              //if the quantity is 1 we take off the div of the product from the productList
+              if(vQ===1){
+                priceCommande = priceCommande - priceProduct;
+                var idPro = event.target.parentElement.previousElementSibling.getAttribute('data-id');
+                var pr = document.getElementById(idPro);
+                pr.parentNode.removeChild(pr);
+
+                this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
+
+              //if the quantity is more than 1 we take one unity from the quantity of the product
+              }else if(vQ>1){
+                priceCommande = priceCommande - priceProduct;
+                //console.log(event)
+                qProduct = vQ - 1;
+                document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
+                //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
+
+                this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
+              }
+            }
+          }
+        }
+        document.getElementById('totalPriceCommande').innerHTML = priceCommande;
+    }
+
+    clickCommandeQt(priceCommande, timesCommande, totalPricePackage){
+
+      document.getElementById('commandeColumn').addEventListener(
+        'click',
+        eventCommande=>{
+
+          priceCommande = parseInt(document.getElementById('totalPriceCommande').innerHTML,10)
+          timesCommande = parseInt(document.getElementById('timesCommande').innerHTML,10)
+          document.getElementById('timesCommande').innerHTML = 1;
+          totalPricePackage = parseInt(document.getElementById('totalPricePackage').innerHTML,10)
+
+          if(eventCommande.target.id == 'plus'){
+            timesCommande = timesCommande +1;
+            document.getElementById('timesCommande').innerHTML = timesCommande;
+          }else if(eventCommande.target.id == 'moins' && timesCommande > 1){
+            timesCommande--;
+            document.getElementById('timesCommande').innerHTML = timesCommande;
+          }
+
+          totalPricePackage = priceCommande * timesCommande;
+          document.getElementById('totalPricePackage').innerHTML = totalPricePackage;
+        }
+      )
+    }
+
+    refreshTotalCommande(priceCommande, timesCommande, totalPricePackage){
+
+      document.getElementById('totalPriceCommande').innerHTML = priceCommande;
+      totalPricePackage = priceCommande * timesCommande;
+      document.getElementById('totalPricePackage').innerHTML = totalPricePackage;
+      priceCommande = parseInt(document.getElementById('totalPriceCommande').innerHTML,10)
+      timesCommande = parseInt(document.getElementById('timesCommande').innerHTML,10)
+      document.getElementById('totalPricePackage').innerHTML = 1;
+      totalPricePackage = parseInt(document.getElementById('totalPricePackage').innerHTML,10)
+
+      totalPricePackage = priceCommande * timesCommande;
+      document.getElementById('totalPricePackage').innerHTML = totalPricePackage;
+
+    }
+
+    clickFigure(event){
+
+      if(event.target.tagName == 'IMG'){
+
+        var typeProd = event.target.getAttribute('data-id');
+
+        switch(typeProd){
+
+          case 'imgClick1br':
+            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le premier brandy de la liste"
+            break;
+          case 'imgClick2br':
+            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le deuxième brandy de la liste"
+            break;
+          case 'imgClick3br':
+            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le troisième brandy de la liste"
+            break;
+          case 'imgClick1wine':
+            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le premier vin de la liste"
+            break;
+          case 'imgClick2wine':
+            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le deuxième vin de la liste"
+            break;
+          case 'imgClick3wine':
+            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le troisième vin de la liste"
+            break;
+          case 'imgClick1oil':
+            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le premier huile de la liste"
+            break;
+          case 'imgClick2oil':
+            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le deuxième huile de la liste"
+            break;
+          case 'imgClick3oil':
+            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le troisième huile de la liste"
+          break;
+          case 'imgClick1ch':
+            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le troisième huile de la liste"
+            break;
+          case 'imgClick2ch':
+            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le premier fromage de la liste"
+            break;
+          case 'imgClick3ch':
+            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le troisième fromage de la liste"
+            break;
+          case 'imgClick1ham':
+          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le premier jambon de la liste"
+            break;
+          case 'imgClick2ham':
+          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le deuxième jambon de la liste"
+            break;
+          case 'imgClick3ham':
+          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le troisième jambon de la liste"
+            break;
+          default:
+            alert("Ce produit n'a pas de description");
+        }
+    }
+  }
+
+
+  /*  var classname = document.getElementsByClassName("center");
+
+    var myFunction = function(evenement) {
+      console.log("target", evenement.target.id);
+    };
+
+    Array.from(classname).forEach(function(element) {
+          element.addEventListener('click', myFunction);
+        });
+
+    $(document).ready(function() {
+      $("a").click(function(event) {
+       alert(event.target.id+" and "+$(event.target).attr('class'));
+      });
+    });*/
+
+
+
+  loadEventUI(){
+    let loginForm = document.getElementsByTagName("form")[0];
+    loginForm.addEventListener("submit",  event => this.onLogin(event), false)
+  }
+
+  onLogin(event){
+    event.preventDefault()
+    let validationInput = 0
+    let formInput = {}
+    let form = document.forms[0].elements
+    for (let i = 0; i < form.length; i++) {
+      if(form[i].value){
+        formInput[form[i].name] = form[i].value
+        validationInput++
+      }
+    }
+  }
+
+  skeletonBase(){
+
+    let vSkeleton = `
+    <section>
       <img class="materialboxed" width="1024px" height="200px" src="./src/images/vinas2.jpeg">
         <h1>${this.pageTitle}</h1>
         <form>
@@ -63,9 +314,12 @@ export class HomePage {
 
          <div class="grid-container outline">
              <div id="buyList" class="row">
-               <div class="col-105">
-                 <p>Total de votre coffre</p></br>
-                  <p>Quantité</p>
+               <div class="col-105" id="commandeColumn">
+                  <p>Total coffre</p></br>
+                  <p id="totalPriceCommande"></p></br>
+                  <p id="timesCommande">Quantité</p>
+                  <p id="totalPricePackage"></p></br>
+                  <div class="ligneBt"><button id="moins">--</button><button id="plus">+</button></div>
                </div>
              </div>
 
@@ -80,18 +334,21 @@ export class HomePage {
                     <figure style= "margin:0;">
                       <img data-id="imgClick1br" src="./src/images/brandy1.png">
                       <div id="ligneBt"><button id="moinsB1">--</button><button id="moinsB1">+</button></div>
+                      <p class = "priceHidden"> 25 </p>
                     </figure>
                   </div>
                   <div class="col-1 center">
                     <figure style= "margin:0;">
                         <img data-id="imgClick2br" src="./src/images/brandy-casajuana-100-anos-reserva.jpeg">
                         <div class="ligneBt"><button id="moinsB2">--</button><button id="plusB2">+</button></div>
+                        <p class = "priceHidden"> 25 </p>
                     </figure>
                   </div>
                   <div  class="col-1 center">
                      <figure style= "margin:0;">
                         <img  data-id="imgClick3br" src="./src/images/barbadillo.jpeg">
                         <div class="ligneBt"><button id="moinsB3">--</button><button id="plusB3">+</button></div>
+                        <p class = "priceHidden"> 25 </p>
                      </figure>
                   </div>
                   <div class="col-1"><p id="textExplicatifBrandy"></p></div>
@@ -104,18 +361,21 @@ export class HomePage {
                     <figure style= "margin:0;">
                         <img  data-id="imgClick1wine" src="./src/images/vin1.jpg">
                         <div class="ligneBt"><button id="moinsW1">--</button><button id="plusW1">+</button></div>
+                        <p class = "priceHidden"> 25 </p>
                     </figure>
                   </div>
                   <div class="col-1 center">
                     <figure style= "margin:0;">
                         <img  data-id="imgClick2wine" src="./src/images/vin2.jpg">
                         <div class="ligneBt"><button id="moinsW2">--</button><button id="plusW2">+</button></div>
+                        <p class = "priceHidden"> 25 </p>
                     </figure>
                   </div>
                   <div class="col-1 center">
                     <figure style= "margin:0;">
                         <img data-id="imgClick3wine" src="./src/images/vin3.jpg">
                         <div class="ligneBt"><button id="moinsW3">--</button><button id="plusW3">+</button></div>
+                        <p class = "priceHidden"> 25 </p>
                     </figure>
                   </div>
                   <div class="col-1"><p id="textExplicatifWine"></p></div>
@@ -128,18 +388,21 @@ export class HomePage {
                       <figure style= "margin:0;">
                           <img  data-id="imgClick1oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
                           <div class="ligneBt"><button id="moinsO1">--</button><button id="plusO1">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
                           <img  data-id="imgClick2oil" src="./src/images/maria-de-la-o-seleccion-gourmet-500-ml.jpeg">
                           <div class="ligneBt"><button id="moinsO2">--</button><button id="plusO2">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
                           <img  data-id="imgClick3oil" src="./src/images/ROXANE ARBEQUINA_500_02.jpeg">
                           <div class="ligneBt"><button id="moinsO3">--</button><button id="plusO3">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1"><p id="textExplicatifOil"></p></div>
@@ -152,18 +415,21 @@ export class HomePage {
                       <figure style= "margin:0;">
                           <img  data-id="imgClick1ch" src="./src/images/cogman-semicurado-puro-oveja.jpeg">
                           <div class="ligneBt"><button id="moinsCh1">--</button><button id="plusCh1">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
                           <img  data-id="imgClick2ch" src="./src/images/queso-curado-al-romero-tomelloso.jpeg">
                           <div class="ligneBt"><button id="moinsCh2">--</button><button id="plusCh2">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
                           <img  data-id="imgClick3ch" src="./src/images/montalvo-curado-en-aceite.jpeg">
                           <div class="ligneBt"><button id="moinsCh3">--</button><button id="plusCh3">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1"><p id="textExplicatifCheese"></p></div>
@@ -176,18 +442,21 @@ export class HomePage {
                       <figure style= "margin:0;">
                           <img  data-id="imgClick1ham" src="./src/images/jamon1.jpeg">
                           <div class="ligneBt"><button id="moinsH1">--</button><button id="plusH1">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
                           <img  data-id="imgClick2ham" src="./src/images/jamon2.jpeg">
                           <div class="ligneBt"><button id="moinsH2">--</button><button id="plusH2">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div class="col-1 center">
                       <figure style= "margin:0;">
                           <img  data-id="imgClick3ham" src="./src/images/jamon3.jpeg">
                           <div class="ligneBt"><button id="moinsH3">--</button><button id="plusH3">+</button></div>
+                          <p class = "priceHidden"> 25 </p>
                       </figure>
                   </div>
                   <div  id="imgClick1" class="col-1"><p id="textExplicatifHam"></p></div>
@@ -291,280 +560,6 @@ export class HomePage {
 
         </form>
       </section>`;
-
-    // add page skeleton in body
-    this.appBody.insertAdjacentHTML( 'afterbegin', pageSkeleton )
-    this.loadEventUI()
-    this.chooseProduct()
-
-    Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
-
-
+      return vSkeleton;
   }
-
-  chooseProduct(){
-
-    if(document.getElementById('productList'))
-    {
-
-      document.getElementById('productList').addEventListener(
-        'click',
-        event=>{
-
-          this.clickFigure(event);
-          //console.log(event)
-          this.clickPlusLess(event);
-
-          }
-        )
-      }
-    }
-
-    clickPlusLess(event){
-
-      //Iniciate the quantity to 0
-      var qProduct;
-      //Iniciate the variable Q to the value in the html
-      var Q;
-      //If the click is in a button
-      if(event.target.tagName == 'BUTTON'){
-        //console.log(event)
-
-        //If the product don't exist in the list
-        if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')) && event.target.innerHTML == '+'){
-
-          //Create the div wwith the product and its quantity
-          var productToList = `
-          <div id="${event.target.parentElement.previousElementSibling.getAttribute('data-id')}" class="col-105">
-             <figure style= "margin:0;">
-               <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
-             </figure>
-             <p>1</p>
-          </div>
-          `
-          //Add the html content to the div buyList
-          document.getElementById('buyList').insertAdjacentHTML('beforeend',productToList)
-
-        //If the product exist in the list
-      }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
-
-          //console.log(event)
-          //console.log(event.target.parentElement.previousElementSibling.nextElementSibling.firstChild) --> Other way to select minus button
-
-          Q = parseInt(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML, 10);
-
-          //If the click is on the plus button
-          if(event.target.innerHTML == '+'){
-
-            qProduct = Q + 1;
-              document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
-
-          //If the click is on the less button
-          }else if(event.target.innerHTML == '--'){
-
-              //if the quantity is 1 we take off the div of the product from the productList
-              if(Q===1){
-
-                var idPro = event.target.parentElement.previousElementSibling.getAttribute('data-id');
-                var pr = document.getElementById(idPro);
-                pr.parentNode.removeChild(pr);
-
-              //if the quantity is more than 1 we take one unity from the quantity of the product
-              }else if(Q>1){
-                //console.log(event)
-                qProduct = Q - 1;
-                document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
-                //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
-
-              }
-            }
-          }
-        }
-    }
-
-    clickFigure(event){
-
-      if(event.target.tagName == 'IMG'){
-
-        var typeProd = event.target.getAttribute('data-id');
-
-        switch(typeProd){
-
-          case 'imgClick1br':
-            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le premier brandy de la liste"
-            break;
-          case 'imgClick2br':
-            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le deuxième brandy de la liste"
-            break;
-          case 'imgClick3br':
-            document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le troisième brandy de la liste"
-            break;
-          case 'imgClick1wine':
-            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le premier vin de la liste"
-            break;
-          case 'imgClick2wine':
-            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le deuxième vin de la liste"
-            break;
-          case 'imgClick3wine':
-            document.getElementById('textExplicatifWine').innerHTML = "Ceci est le troisième vin de la liste"
-            break;
-          case 'imgClick1oil':
-            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le premier huile de la liste"
-            break;
-          case 'imgClick2oil':
-            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le deuxième huile de la liste"
-            break;
-          case 'imgClick3oil':
-            document.getElementById('textExplicatifOil').innerHTML = "Ceci est le troisième huile de la liste"
-          break;
-          case 'imgClick1ch':
-            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le troisième huile de la liste"
-            break;
-          case 'imgClick2ch':
-            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le premier fromage de la liste"
-            break;
-          case 'imgClick3ch':
-            document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le troisième fromage de la liste"
-            break;
-          case 'imgClick1ham':
-          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le premier jambon de la liste"
-            break;
-          case 'imgClick2ham':
-          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le deuxième jambon de la liste"
-            break;
-          case 'imgClick3ham':
-          document.getElementById('textExplicatifHam').innerHTML = "Ceci est le troisième jambon de la liste"
-            break;
-          default:
-            alert("Ce produit n'a pas de description");
-        }
-    }
-  }
-
-  /*  var classname = document.getElementsByClassName("center");
-
-    var myFunction = function(evenement) {
-      console.log("target", evenement.target.id);
-    };
-
-    Array.from(classname).forEach(function(element) {
-          element.addEventListener('click', myFunction);
-        });
-
-    $(document).ready(function() {
-      $("a").click(function(event) {
-       alert(event.target.id+" and "+$(event.target).attr('class'));
-      });
-    });*/
-/*
-    if(evenement.currentTarget.getAttribute('class') === 'row')
-    {
-      (evenement)=>{
-      var test = evenement.target.id;
-      switch(test.tagName) {
-        case 'imgClick1br':
-            Materialize.toast('BIEN', 4000)
-            break;
-        case 'imgClick2br':
-            Materialize.toast('BIEN', 4000)
-            break;
-        default:
-            Materialize.toast('FAUX', 4000)
-          }
-        }
-
-      console.log("target", evenement.target.id);
-      console.log(evenement.target.id);
-
-    }*/
-/*
-    document.getElementById('imgClick1br').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le premier brandy de la liste";})
-
-    document.getElementById('imgClick2br').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le deuxième brandy de la liste";})
-
-    document.getElementById('imgClick3br').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifBrandy').innerHTML = "Ceci est le troisième brandy de la liste";})
-
-    document.getElementById('imgClick1wine').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifWine').innerHTML = "Ceci est le premier vin de la liste";})
-
-    document.getElementById('imgClick2wine').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifWine').innerHTML = "Ceci est le deuxième vin de la liste";})
-
-    document.getElementById('imgClick3wine').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifWine').innerHTML = "Ceci est le troisième vin de la liste";})
-
-    document.getElementById('imgClick1oil').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifOil').innerHTML = "Ceci est le premier huile de la liste";})
-
-    document.getElementById('imgClick2oil').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifOil').innerHTML = "Ceci est le deuxième huile de la liste";})
-
-    document.getElementById('imgClick3oil').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifOil').innerHTML = "Ceci est le troisième huile de la liste";})
-
-    document.getElementById('imgClick1ch').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le premier fromage de la liste";})
-
-    document.getElementById('imgClick2ch').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le deuxième fromage de la liste";})
-
-    document.getElementById('imgClick3ch').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifCheese').innerHTML = "Ceci est le troisième fromage de la liste";})
-
-    document.getElementById('imgClick1ham').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifHam').innerHTML = "Ceci est le premier jambon de la liste";})
-
-    document.getElementById('imgClick2ham').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifHam').innerHTML = "Ceci est le deuxième jambon de la liste";})
-
-    document.getElementById('imgClick3ham').addEventListener('click', ()=>{
-    document.getElementById('textExplicatifHam').innerHTML = "Ceci est le troisième jambon de la liste";})
-*/
-    /*if(event.target.getAttribute('class') === 'center')
-    {
-
-    }*/
-  /*  $(document).ready( _ => {
-
-      document.getElementsByTagName("center").addEventListener('click',
-        (evenement) => {
-          console.log("currentTarget",evenement.currentTarget.id);
-          console.log("target", evenement.target.id);
-        }
-      );
-
-    })*/
-
-  /*delElem(parent, child)
-      {
-        var obj = document.getElementById(parent);
-        var old = document.getElementById(child);
-
-        obj.removeChild(old);
-      }*/
-
-  loadEventUI(){
-    let loginForm = document.getElementsByTagName("form")[0];
-    loginForm.addEventListener("submit",  event => this.onLogin(event), false)
-
-
-  }
-
-  onLogin(event){
-    event.preventDefault()
-    let validationInput = 0
-    let formInput = {}
-    let form = document.forms[0].elements
-    for (let i = 0; i < form.length; i++) {
-      if(form[i].value){
-        formInput[form[i].name] = form[i].value
-        validationInput++
-      }
-    }
-  }
-
-
 }

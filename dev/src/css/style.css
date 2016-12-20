@@ -19,7 +19,7 @@
     display: table ;
     clear:both;
     padding: 1px;
-    
+
 
 }
 
@@ -148,3 +148,7 @@ img{
   display: block;
   text-align: center;
   clear:both;}
+
+.priceHidden{
+  display: none;
+}
