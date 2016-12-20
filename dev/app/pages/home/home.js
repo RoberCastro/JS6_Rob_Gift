@@ -6,7 +6,7 @@
 * @Last modified time: 13-12-2016
 */
 
-import { commande } from '../../helpers/commande';
+//import { firebaseHelper } from '../../helpers/firebaseHelper';
 
 export class HomePage {
 
@@ -14,7 +14,6 @@ export class HomePage {
     this.appBody = appBody
     this.pageTitle = 'Hello world! Hello Roberto';
     this.initUI();
-
   }
 
   initUI(){
@@ -28,7 +27,6 @@ export class HomePage {
     var totalPricePackage;
     var localOrder = {};
 
-    console.log(localOrder)
     // remove all section before display UI
     if(document.getElementsByTagName("section")[0]){
       document.getElementsByTagName("section")[0].parentNode.removeChild(document.getElementsByTagName("section")[0])
@@ -42,12 +40,31 @@ export class HomePage {
     // add page skeleton in body
     this.appBody.insertAdjacentHTML( 'afterbegin', pageSkeleton )
     this.loadEventUI()
+    //this.loadLocalStorage(priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder)
     this.chooseProduct(vQ,priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder)
     this.clickCommandeQt(priceCommande,timesCommande, totalPricePackage)
 
     Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
 
+  }
 
+  loadLocalStorage(priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder){
+    if (localStorage.getItem("localOrder")) {
+      //lire un objet
+      let objetB = JSON.parse(localStorage.getItem("localOrder"));
+      //console.log(objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro);
+      var productToList = `
+      <div id="${objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro}" class="col-105">
+         <figure style= "margin:0;">
+           <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
+         </figure>
+         <p>1</p>
+      </div>
+      `
+      document.getElementById('buyList').insertAdjacentHTML('beforeend', productToList)
+      priceCommande = priceCommande + priceProduct;
+      this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
+    }
   }
 
   chooseProduct(vQ, priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder){
@@ -77,7 +94,6 @@ export class HomePage {
         document.getElementById('timesCommande').innerHTML = 1;
       }else{
         priceCommande = parseInt(document.getElementById('totalPriceCommande').innerHTML,10);
-
       }
 
       //If the click is in a button
@@ -104,7 +120,9 @@ export class HomePage {
             timesPro: 1,
             pricePro: priceProduct
           };
-          console.log(localOrder);
+          localStorage.setItem("localOrder",JSON.stringify(localOrder));
+
+          //console.log(localOrder);
           //Add the html content to the div buyList
           document.getElementById('buyList').insertAdjacentHTML('beforeend', productToList)
           priceCommande = priceCommande + priceProduct;
@@ -129,7 +147,8 @@ export class HomePage {
               timesPro: qProduct,
               pricePro: priceProduct
             };
-            console.log(localOrder);
+            localStorage.setItem("localOrder",JSON.stringify(localOrder));
+            //console.log(localOrder);
 
             this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
           //If the click is on the less button
@@ -141,6 +160,11 @@ export class HomePage {
                 var idPro = event.target.parentElement.previousElementSibling.getAttribute('data-id');
                 var pr = document.getElementById(idPro);
                 pr.parentNode.removeChild(pr);
+
+                delete localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')];
+                localStorage.setItem("localOrder",JSON.stringify(localOrder));
+
+                //console.log(localOrder);
 
                 this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
 
@@ -156,7 +180,9 @@ export class HomePage {
                   timesPro: qProduct,
                   pricePro: priceProduct
                 };
-                console.log(localOrder);
+                localStorage.setItem("localOrder",JSON.stringify(localOrder));
+
+                //console.log(localOrder);
 
                 this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
               }
@@ -164,6 +190,14 @@ export class HomePage {
           }
         }
         document.getElementById('totalPriceCommande').innerHTML = priceCommande;
+        if (localStorage.getItem("localOrder")) {
+          //lire un objet
+          let objetB = JSON.parse(localStorage.getItem("localOrder"));
+          //console.log(objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro);
+          for(var i in objetB) {
+              console.log(objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro);  // (o el campo que necesites)
+          }
+        }
     }
 
     clickCommandeQt(priceCommande, timesCommande, totalPricePackage){
@@ -286,7 +320,7 @@ export class HomePage {
 
   loadEventUI(){
     let loginForm = document.getElementsByTagName("form")[0];
-    loginForm.addEventListener("submit",  event => this.onLogin(event), false)
+    loginForm.addEventListener("submit",  event => this.onLogin(event), false);
   }
 
   onLogin(event){
