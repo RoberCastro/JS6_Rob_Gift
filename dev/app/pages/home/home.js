@@ -40,31 +40,47 @@ export class HomePage {
     // add page skeleton in body
     this.appBody.insertAdjacentHTML( 'afterbegin', pageSkeleton )
     this.loadEventUI()
-    //this.loadLocalStorage(priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder)
+    this.dessinerPanier(priceCommande, timesCommande, totalPricePackage);
     this.chooseProduct(vQ,priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder)
     this.clickCommandeQt(priceCommande,timesCommande, totalPricePackage)
 
     Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
+    console.log($("#totalPriceCommande")[0].innerHTML)
 
   }
 
-  loadLocalStorage(priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder){
-    if (localStorage.getItem("localOrder")) {
-      //lire un objet
-      let objetB = JSON.parse(localStorage.getItem("localOrder"));
-      //console.log(objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro);
-      var productToList = `
-      <div id="${objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro}" class="col-105">
-         <figure style= "margin:0;">
-           <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
-         </figure>
-         <p>1</p>
-      </div>
-      `
-      document.getElementById('buyList').insertAdjacentHTML('beforeend', productToList)
-      priceCommande = priceCommande + priceProduct;
-      this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
+  dessinerPanier(priceCommande, timesCommande, totalPricePackage) {
+    // Supprimer contenu panier
+    var liste = document.getElementById('buyList');
+    while (liste.children.length>1) {liste.removeChild(liste.lastChild)}
+    priceCommande = 0;
+
+    // Afficher les éléments
+    var produits = JSON.parse(localStorage.getItem("localOrder"));
+    for(let id in produits) {
+      this.dessinerProduit(produits[id]);
+      priceCommande = priceCommande + produits[id].pricePro * produits[id].timesPro ;
     }
+    document.getElementById('totalPriceCommande').innerHTML = priceCommande;
+    document.getElementById('totalPricePackage').innerHTML = priceCommande;
+    if(document.getElementById('timesCommande').innerHTML == "Quantité"){
+      document.getElementById('timesCommande').innerHTML = 1;
+    };
+  }
+
+  dessinerProduit(produit) {
+    // Lire le src du produit (stocké dans le html)
+    var srcImage = document.querySelector(`img[data-id=${produit.idPro}]`).src;
+    var productToList = `
+    <div id="${produit.idPro}" class="col-105">
+       <figure style= "margin:0;">
+         <img id="imgPan1" src="${srcImage}">
+       </figure>
+       <p class = "priceHidden"> ${produit.pricePro} </p>
+       <p>${produit.timesPro}</p>
+    </div>
+    `;
+    document.getElementById('buyList').insertAdjacentHTML('beforeend', productToList);
   }
 
   chooseProduct(vQ, priceProduct,priceCommande,timesCommande, totalPricePackage, localOrder){
@@ -78,7 +94,7 @@ export class HomePage {
           this.clickFigure(event);
           //console.log(event)
           this.clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage, localOrder);
-
+          //this.dessinerPanier();
           }
         )
       }
@@ -98,7 +114,6 @@ export class HomePage {
 
       //If the click is in a button
       if(event.target.tagName == 'BUTTON'){
-        //localStorage.setItem("localOrder",JSON.stringify(localOrder));
 
         //Convert the html text in an integer number so we can operate with it
         priceProduct = parseInt(event.target.parentElement.nextElementSibling.innerHTML, 10);
@@ -106,15 +121,8 @@ export class HomePage {
         //If the product don't exist in the list
         if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')) && event.target.innerHTML == '+'){
 
-          //Create the div wwith the product and its quantity
-          var productToList = `
-          <div id="${event.target.parentElement.previousElementSibling.getAttribute('data-id')}" class="col-105">
-             <figure style= "margin:0;">
-               <img id="imgPan1" src="${event.target.parentElement.previousElementSibling.src}">
-             </figure>
-             <p>1</p>
-          </div>
-          `
+          localOrder = JSON.parse(localStorage.getItem("localOrder"));
+
           localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
             idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
             timesPro: 1,
@@ -122,13 +130,14 @@ export class HomePage {
           };
           localStorage.setItem("localOrder",JSON.stringify(localOrder));
 
-          //console.log(localOrder);
           //Add the html content to the div buyList
-          document.getElementById('buyList').insertAdjacentHTML('beforeend', productToList)
+          this.dessinerPanier(priceCommande, timesCommande, totalPricePackage);
+          //Calculate and prices and quantities
           priceCommande = priceCommande + priceProduct;
-          this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
-
-
+          totalPricePackage = parseInt(document.getElementById('totalPricePackage').innerHTML,10)
+          timesCommande = parseInt(document.getElementById('timesCommande').innerHTML,10)
+          totalPricePackage = priceCommande * timesCommande;
+          document.getElementById('totalPricePackage').innerHTML = totalPricePackage;
 
         //If the product exist in the list
         }else if(document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id'))){
@@ -142,14 +151,14 @@ export class HomePage {
             priceCommande = priceCommande + priceProduct;
             document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
 
+            localOrder = JSON.parse(localStorage.getItem("localOrder"));
             localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
               idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
               timesPro: qProduct,
               pricePro: priceProduct
             };
             localStorage.setItem("localOrder",JSON.stringify(localOrder));
-            //console.log(localOrder);
-
+            this.dessinerPanier(priceCommande, timesCommande, totalPricePackage);
             this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
           //If the click is on the less button
           }else if(event.target.innerHTML == '--'){
@@ -161,44 +170,34 @@ export class HomePage {
                 var pr = document.getElementById(idPro);
                 pr.parentNode.removeChild(pr);
 
+                localOrder = JSON.parse(localStorage.getItem("localOrder"));
                 delete localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')];
                 localStorage.setItem("localOrder",JSON.stringify(localOrder));
-
                 //console.log(localOrder);
-
+                this.dessinerPanier(priceCommande, timesCommande, totalPricePackage);
                 this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
 
               //if the quantity is more than 1 we take one unity from the quantity of the product
               }else if(vQ>1){
                 priceCommande = priceCommande - priceProduct;
-                //console.log(event)
                 qProduct = vQ - 1;
                 document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')).lastChild.previousElementSibling.innerHTML = qProduct;
-                //console.log(event.target.parentElement.previousElementSibling.getAttribute('data-id'))
+                localOrder = JSON.parse(localStorage.getItem("localOrder"));
                 localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
                   idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
                   timesPro: qProduct,
                   pricePro: priceProduct
                 };
                 localStorage.setItem("localOrder",JSON.stringify(localOrder));
-
-                //console.log(localOrder);
-
+                this.dessinerPanier(priceCommande, timesCommande, totalPricePackage);
                 this.refreshTotalCommande(priceCommande, timesCommande, totalPricePackage);
               }
             }
           }
         }
         document.getElementById('totalPriceCommande').innerHTML = priceCommande;
-        if (localStorage.getItem("localOrder")) {
-          //lire un objet
-          let objetB = JSON.parse(localStorage.getItem("localOrder"));
-          //console.log(objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro);
-          for(var i in objetB) {
-              console.log(objetB[event.target.parentElement.previousElementSibling.getAttribute('data-id')].idPro);  // (o el campo que necesites)
-          }
-        }
     }
+
 
     clickCommandeQt(priceCommande, timesCommande, totalPricePackage){
 
@@ -229,9 +228,11 @@ export class HomePage {
 
       document.getElementById('totalPriceCommande').innerHTML = priceCommande;
       totalPricePackage = priceCommande * timesCommande;
+
       document.getElementById('totalPricePackage').innerHTML = totalPricePackage;
       priceCommande = parseInt(document.getElementById('totalPriceCommande').innerHTML,10)
       timesCommande = parseInt(document.getElementById('timesCommande').innerHTML,10)
+
       document.getElementById('totalPricePackage').innerHTML = 1;
       totalPricePackage = parseInt(document.getElementById('totalPricePackage').innerHTML,10)
 
@@ -298,25 +299,6 @@ export class HomePage {
         }
     }
   }
-
-
-  /*  var classname = document.getElementsByClassName("center");
-
-    var myFunction = function(evenement) {
-      console.log("target", evenement.target.id);
-    };
-
-    Array.from(classname).forEach(function(element) {
-          element.addEventListener('click', myFunction);
-        });
-
-    $(document).ready(function() {
-      $("a").click(function(event) {
-       alert(event.target.id+" and "+$(event.target).attr('class'));
-      });
-    });*/
-
-
 
   loadEventUI(){
     let loginForm = document.getElementsByTagName("form")[0];
@@ -413,8 +395,8 @@ export class HomePage {
                   </div>
                   <div class="col-1"><p id="textExplicatifBrandy"></p></div>
                </div>
-<!--Second line of products-->
 
+<!--Second line of products-->
                <div class="row" >
                   <div class="col-1"><p>Vinos</p></div>
                   <div class="col-1 center">
@@ -623,3 +605,6 @@ export class HomePage {
       return vSkeleton;
   }
 }
+// window.onload = function () {
+//   dessinerPanier();
+// }
