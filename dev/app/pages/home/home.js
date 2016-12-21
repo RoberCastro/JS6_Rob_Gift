@@ -6,7 +6,7 @@
 * @Last modified time: 13-12-2016
 */
 
-//import { firebaseHelper } from '../../helpers/firebaseHelper';
+import { FireBaseHelper } from '../../helpers/firebaseHelper';
 
 export class HomePage {
 
@@ -14,6 +14,21 @@ export class HomePage {
     this.appBody = appBody
     this.pageTitle = 'Hello world! Hello Roberto';
     this.initUI();
+    this.fFireBaseHelper();
+  }
+
+  fFireBaseHelper(){
+
+    //We instanciate the Firebase class
+    let dataBaseCastro = new FireBaseHelper();
+
+    //In the case the user send the order we save in the database
+    $("#sendOrder")[0].addEventListener('click', ()=>{
+
+      var comLocalStorage = JSON.parse(localStorage.getItem("localOrder"));
+      dataBaseCastro.addObjectToBase(comLocalStorage);
+      alert("Bien envoyé")
+    })
   }
 
   initUI(){
@@ -26,6 +41,7 @@ export class HomePage {
     var timesCommande;
     var totalPricePackage;
     var localOrder = {};
+
 
     // remove all section before display UI
     if(document.getElementsByTagName("section")[0]){
@@ -352,7 +368,7 @@ export class HomePage {
            </div>
          </nav>
 
-         <p class="lined-separator"><span class="ls-text">Top Selling Products</span></p>
+         <div class="sendOrder"><button class="btn" id="sendOrder">Envoyer commande</button></div>
 
          <div class="grid-container outline">
              <div id="buyList" class="row">

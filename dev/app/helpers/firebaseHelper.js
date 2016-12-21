@@ -6,36 +6,31 @@
 * @Last modified time: 13-12-2016
 */
 
-export class firebaseHelper {
+export class FireBaseHelper {
 
   constructor(){
-  }
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCpFgr84epTyPOdUGgVMLpxLDOE4pAGQzo",
-    authDomain: "castrogastro-858c3.firebaseapp.com",
-    databaseURL: "https://castrogastro-858c3.firebaseio.com",
-    storageBucket: "castrogastro-858c3.appspot.com",
-    messagingSenderId: "508588633189"
-  };
-  firebase.initializeApp(config);
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCpFgr84epTyPOdUGgVMLpxLDOE4pAGQzo",
+      authDomain: "castrogastro-858c3.firebaseapp.com",
+      databaseURL: "https://castrogastro-858c3.firebaseio.com",
+      storageBucket: "castrogastro-858c3.appspot.com",
+      messagingSenderId: "508588633189"
+    };
+    firebase.initializeApp(config);
+    // Get a reference to the database service
+   }
 
-  // Get a reference to the database service
-  let database = firebase.database();
-
-  function addObjectToBase(){
+  addObjectToBase(product){
+    let database = firebase.database();
 
     // l'envoyer dans la collection "products" sur Firebase
-    database.ref('products').push({
-      name: input.value,
-      statut: false
-    });
+    database.ref('products').push(product);
     // vider la valeur du champ input
-    input.value = '';
   }
 
-  function loadFirebaseObject(){
+  loadFirebaseObject(){
     // création d'un UL pour recevoir les produits
     let liste_UL = document.createElement('ul')
     liste_UL.setAttribute('id','liste')
@@ -43,7 +38,7 @@ export class firebaseHelper {
     // ajout d'un event listenenr pour capturer le click
     liste_UL.addEventListener('click', ()=> {
       // l'event est passé à une fonction pour être traité plus loin...
-      updateDatabase(event)
+      this.updateDatabase(event)
     })
     // récupérer la référence products
     // Créer un listener pour récupérer
@@ -55,21 +50,18 @@ export class firebaseHelper {
         console.log('child added-> ', snapshot.val());
         // les valeur sont contenu dans snapshot.val()
         // et passée à une fonction pour être traitée plus loin...
-        displayProductsInList(snapshot)
+        this.displayProductsInList(snapshot)
     });
     productsRef.on('child_removed', (snapshot)=> {
         console.log('child removed-> ', snapshot.val());
         // les valeur sont contenu dans snapshot.val()
         // et passée à une fonction pour être traitée plus loin...
-        updateProductsInList(snapshot)
+        this.updateProductsInList(snapshot)
     });
   }
-  //initializer la function
-  loadFirebaseObject();
-
 
   // afficher dans un tableau ( ul > li ) la liste de produit
-  function displayFavorites(productData){
+/*  displayFavorites(productData){
     // si la liste UL existe
     if(document.getElementById('liste')){
       // ajouter le produit dans le LI avec un checkbox et un boutton delete
@@ -87,7 +79,7 @@ export class firebaseHelper {
   }
 
   // fonction pour mettre à jour la base de donnée
-  function updateDatabase(event){
+  updateDatabase(event){
     //console.log(event.target);
     // récupérer l'id de l'élément suer lequel on a cliké
     let id = event.target.parentNode.getAttribute('id')
@@ -105,10 +97,10 @@ export class firebaseHelper {
     }
   }
 
-  function updateProductsInList(productData){
+  updateProductsInList(productData){
     let product = document.getElementById(productData.key)
     product.parentNode.removeChild(product)
-  }
+  }*/
 
 
 
