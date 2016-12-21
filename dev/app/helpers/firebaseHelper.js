@@ -23,85 +23,10 @@ export class FireBaseHelper {
    }
 
   addObjectToBase(product){
+
     let database = firebase.database();
-
     // l'envoyer dans la collection "products" sur Firebase
-    database.ref('products').push(product);
-    // vider la valeur du champ input
+    database.ref('localOrder').push(product);
   }
-
-  loadFirebaseObject(){
-    // création d'un UL pour recevoir les produits
-    let liste_UL = document.createElement('ul')
-    liste_UL.setAttribute('id','liste')
-    document.getElementById('app').appendChild(liste_UL)
-    // ajout d'un event listenenr pour capturer le click
-    liste_UL.addEventListener('click', ()=> {
-      // l'event est passé à une fonction pour être traité plus loin...
-      this.updateDatabase(event)
-    })
-    // récupérer la référence products
-    // Créer un listener pour récupérer
-    // la valeur contenu dans la référence
-    var productsRef = database.ref('products');
-    // Créer un listener pour récupérer
-    // la valeur contenu dans la référence
-    productsRef.on('child_added', (snapshot)=> {
-        console.log('child added-> ', snapshot.val());
-        // les valeur sont contenu dans snapshot.val()
-        // et passée à une fonction pour être traitée plus loin...
-        this.displayProductsInList(snapshot)
-    });
-    productsRef.on('child_removed', (snapshot)=> {
-        console.log('child removed-> ', snapshot.val());
-        // les valeur sont contenu dans snapshot.val()
-        // et passée à une fonction pour être traitée plus loin...
-        this.updateProductsInList(snapshot)
-    });
-  }
-
-  // afficher dans un tableau ( ul > li ) la liste de produit
-/*  displayFavorites(productData){
-    // si la liste UL existe
-    if(document.getElementById('liste')){
-      // ajouter le produit dans le LI avec un checkbox et un boutton delete
-      let liste_LI = document.createElement('li')
-      // on asigne une id pour identifier l'element lors du click
-      liste_LI.setAttribute('id',productData.key)
-      liste_LI.innerHTML = `
-        <input type="checkbox" class="update" ${(productData.val().statut === true)?'checked':''} name="statut">
-        ${productData.val().name}
-        <button class="del">remove</button>
-      `
-      // on ajout le LI créé dans la liste UL
-      document.getElementById('liste').appendChild(liste_LI)
-    }
-  }
-
-  // fonction pour mettre à jour la base de donnée
-  updateDatabase(event){
-    //console.log(event.target);
-    // récupérer l'id de l'élément suer lequel on a cliké
-    let id = event.target.parentNode.getAttribute('id')
-    // si on a clické sur le button-> on supprime de la BDD
-    if(event.target.getAttribute('class') === 'del'){
-      console.log('product delete-> ',id);
-      database.ref('products/'+id).remove();
-    }
-    // si on a clické sur la case à cocher-> on update la BDD
-    if(event.target.getAttribute('class') === 'update'){
-      console.log('product update-> ',id);
-      database.ref('products/'+id).update({
-        statut: event.target.checked
-      });
-    }
-  }
-
-  updateProductsInList(productData){
-    let product = document.getElementById(productData.key)
-    product.parentNode.removeChild(product)
-  }*/
-
-
 
 }

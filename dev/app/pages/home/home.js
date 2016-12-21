@@ -25,10 +25,39 @@ export class HomePage {
     //In the case the user send the order we save in the database
     $("#sendOrder")[0].addEventListener('click', ()=>{
 
+      var sEmail = $('#txtEmail').val();
+      // Checking Empty Fields
+      if ($.trim(sEmail).length == 0) {
+          alert('Remplissez le champ email');
+          e.preventDefault();
+      }
+      if (this.validateEmail(sEmail)) {
+          alert('Nice!! your Email is valid, now you can continue..');
+      }
+      else {
+          alert('Invalid Email Address');
+          e.preventDefault();
+      }
+
       var comLocalStorage = JSON.parse(localStorage.getItem("localOrder"));
-      dataBaseCastro.addObjectToBase(comLocalStorage);
+      dataBaseCastro.addObjectToBase({
+        order: comLocalStorage,
+        nbOrder: $("#timesCommande")[0].innerHTML,
+        mail: $("input[name='email']").val()
+      });
       alert("Bien envoyé")
     })
+  }
+
+  validateEmail(sEmail) {
+  var filter = /^[\w-.+]+@[a-zA-Z0-9.-]+.[a-zA-z0-9]{2,4}$/;
+
+  if (filter.test(sEmail)) {
+  return true;
+  }
+  else {
+  return false;
+  }
   }
 
   initUI(){
@@ -368,7 +397,12 @@ export class HomePage {
            </div>
          </nav>
 
-         <div class="sendOrder"><button class="btn" id="sendOrder">Envoyer commande</button></div>
+         <div class="sendOrder">
+            <button class="btn" id="sendOrder">Envoyer commande</button>
+            <p>
+              <label for="email">Email:</label><input id="txtEmail" type="email" name="email" value="" placeholder="votreemail.ch"/>
+            </p>
+         </div>
 
          <div class="grid-container outline">
              <div id="buyList" class="row">
@@ -542,10 +576,7 @@ export class HomePage {
                  <div class="col-6"><p>col-6</p></div>
              </div>
          </div>
-          <p>
-            <label for="email">Email:</label> <input type="email" name="email" value="" placeholder="votreemail.ch"  /><br/>
-            <label for="password">Password:</label> <input type="password" name="password" value=""  /><br/>
-          </p>
+
           <a class="btn" onclick="Materialize.toast('I am a toast', 4000)">Toast!</a>
             <button>Login</button>
           <div>
