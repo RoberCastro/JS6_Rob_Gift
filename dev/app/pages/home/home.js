@@ -7,6 +7,7 @@
 */
 
 import { FireBaseHelper } from '../../helpers/firebaseHelper';
+import { AdminPage } from '../../pages/admin/admin';
 
 export class HomePage {
 
@@ -346,22 +347,24 @@ export class HomePage {
   }
 
   loadEventUI(){
-    let loginForm = document.getElementsByTagName("form")[0];
-    loginForm.addEventListener("submit",  event => this.onLogin(event), false);
+
+    $("#adminPage")[0].addEventListener('click', event => this.onLogin(event), false);
+    $("#adminPageMob")[0].addEventListener('click', event => this.onLogin(event), false);
+
   }
 
   onLogin(event){
+
     event.preventDefault()
     let validationInput = 0
-    let formInput = {}
-    let form = document.forms[0].elements
-    for (let i = 0; i < form.length; i++) {
-      if(form[i].value){
-        formInput[form[i].name] = form[i].value
-        validationInput++
-      }
+    let formInput = $('#txtEmail').val();
+
+    if($('#txtEmail').val().length>0){
+      console.log('load AdminPage')
+      new AdminPage(this.appBody,formInput);
     }
   }
+
 
   skeletonBase(){
 
@@ -370,14 +373,6 @@ export class HomePage {
       <img class="materialboxed" width="1024px" height="200px" src="./src/images/vinas2.jpeg">
         <h1>${this.pageTitle}</h1>
         <form>
-        <style>
-        #div1 {
-            width: 350px;
-            height: 70px;
-            padding: 10px;
-            border: 1px solid #aaaaaa;
-        }
-        </style>
           <nav class="navBarTop">
            <div class="nav-wrapper" class="navBarTop" >
              <a href="#!" class="brand-logo">Logo</a>
@@ -387,12 +382,14 @@ export class HomePage {
                <li><a href="#">Productos</a></li>
                <li><a href="#">Quienes somos</a></li>
                <li><a href="#">Contacto</a></li>
+               <li><a id="adminPage" href="#">Admin</a></li>
              </ul>
              <ul class="side-nav" id="mobile-demo">
-               <li><a href="sass.html">Inicio</a></li>
-               <li><a href="badges.html">Productos</a></li>
-               <li><a href="collapsible.html">Javascript</a></li>
-               <li><a href="mobile.html">Contacto</a></li>
+               <li><a href="#">Inicio</a></li>
+               <li><a href="#">Productos</a></li>
+               <li><a href="#">Quienes somos</a></li>
+               <li><a href="#">Contacto</a></li>
+               <li><a id="adminPageMob" href="#">Admin</a></li>
              </ul>
            </div>
          </nav>
