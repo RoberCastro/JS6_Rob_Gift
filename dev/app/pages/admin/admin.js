@@ -62,8 +62,7 @@ export class AdminPage {
       $( document ).ready(function(){
         $(".button-collapse").sideNav();
       });
-      //let list = this.listOrders
-      //console.log(list)
+
       this.loadEventUI();
     }
 
@@ -110,38 +109,12 @@ export class AdminPage {
             for(let i in ordre) {
 
                 document.getElementById(idDiv).insertAdjacentHTML('beforeend', this.dessinerProduit(ordre[i]));
-
-
             }
           }
-
-
         })
         .catch((err)=>{
           console.log('Error with Firebase loadData()-> ', err)
         })
-
-      //console.log(listOrders)
-
-    }
-
-    dessinerPanier(listOrders) {
-      // Supprimer contenu panier
-      var liste = document.getElementById('buyList');
-      while (liste.children.length>0) {liste.removeChild(liste.lastChild)}
-    //  priceCommande = 0;
-
-      // Afficher les éléments
-
-      for(let id in listOrders) {
-        this.dessinerProduit(listOrders[0].order[id]);
-        //priceCommande = priceCommande + listOrders[id].pricePro * listOrders[id].timesPro ;
-      }
-      // document.getElementById('totalPriceCommande').innerHTML = priceCommande;
-      // document.getElementById('totalPricePackage').innerHTML = priceCommande;
-      // if(document.getElementById('timesCommande').innerHTML == "Quantité"){
-      //   document.getElementById('timesCommande').innerHTML = 1;
-      // };
     }
 
     dessinerProduit(ordre) {
@@ -156,5 +129,4 @@ export class AdminPage {
       </div>
       `;
     }
-
 }

@@ -8,7 +8,6 @@
 import { HomePage } from './pages/home/home';
 import { API_KEY_FIREBASE } from './helpers/apikeyfirebase';
 
-
 class MyApp {
 
   constructor(){

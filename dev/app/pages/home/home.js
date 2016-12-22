@@ -31,7 +31,6 @@ export class HomePage {
     var totalPricePackage;
     var localOrder = {};
 
-
     // remove all section before display UI
     if(document.getElementsByTagName("section")[0]){
       document.getElementsByTagName("section")[0].parentNode.removeChild(document.getElementsByTagName("section")[0])
@@ -100,7 +99,6 @@ export class HomePage {
       //e.preventDefault();
       localStorage.removeItem("localOrder");
       this.initUI();
-
     })
   }
 
@@ -167,7 +165,6 @@ export class HomePage {
       )
     }
   }
-
 
   clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage, localOrder){
 
@@ -591,6 +588,3 @@ export class HomePage {
       return vSkeleton;
   }
 }
-// window.onload = function () {
-//   dessinerPanier();
-// }
