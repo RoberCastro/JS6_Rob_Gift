@@ -28,6 +28,7 @@ export class AdminPage {
     let pageSkeleton = `
       <section>
         <form>
+          <p>${this.pageTitle} ${this.formData} !</p>
           <nav class="navBarTop">
            <div class="nav-wrapper" class="navBarTop" >
              <a href="#!" class="brand-logo">Logo</a>
@@ -48,9 +49,12 @@ export class AdminPage {
              </ul>
            </div>
          </nav>
+         <div class="grid-container outline">
+             <div id="buyList">
+
+             </div>
+          </div>
         </form>
-        <h1 id="time"></h1>
-        <p>${this.pageTitle} ${this.formData} !</p>
       </section>
       `;
       // add page skeleton in body
@@ -82,13 +86,34 @@ export class AdminPage {
 
       dataBaseCastro.loadData()
         .then((response)=>{
-          //console.log('database ready->',JSON.stringify(response))
-          //console.log(response[0].order)
-          let listOrders
 
-          response[0].order.forEach((element)=> {
-              console.log(element);
-          });
+          let ordre;
+
+          for(let id in response) {
+
+            ordre = response[id].order;
+
+            let divOrdre = document.createElement('div')
+            divOrdre.innerHTML = `Liste d'achat numéro : ${id} </br>
+                                  Client mail : ${response[id].mail}</br>
+                                  Quantité de panniers : ${response[id].nbOrder}</br>`;
+            divOrdre.setAttribute('id',`liste${id}`)
+            divOrdre.setAttribute('style', 'display:block; overflow:auto;')
+            divOrdre.setAttribute('class', 'divProd')
+            document.getElementById('buyList').appendChild(divOrdre)
+            var idDiv = `liste${id}`
+
+            console.log("ordre", id)
+
+            for(let i in ordre) {
+
+                document.getElementById(idDiv).insertAdjacentHTML('beforeend', this.dessinerProduit(ordre[i]));
+
+
+            }
+          }
+
+
         })
         .catch((err)=>{
           console.log('Error with Firebase loadData()-> ', err)
@@ -96,6 +121,38 @@ export class AdminPage {
 
       //console.log(listOrders)
 
+    }
+
+    dessinerPanier(listOrders) {
+      // Supprimer contenu panier
+      var liste = document.getElementById('buyList');
+      while (liste.children.length>0) {liste.removeChild(liste.lastChild)}
+    //  priceCommande = 0;
+
+      // Afficher les éléments
+
+      for(let id in listOrders) {
+        this.dessinerProduit(listOrders[0].order[id]);
+        //priceCommande = priceCommande + listOrders[id].pricePro * listOrders[id].timesPro ;
+      }
+      // document.getElementById('totalPriceCommande').innerHTML = priceCommande;
+      // document.getElementById('totalPricePackage').innerHTML = priceCommande;
+      // if(document.getElementById('timesCommande').innerHTML == "Quantité"){
+      //   document.getElementById('timesCommande').innerHTML = 1;
+      // };
+    }
+
+    dessinerProduit(ordre) {
+      // Lire le src du produit (stocké dans le html)
+      return `
+      <div id="${ordre.idPro}" class="col-105">
+         <figure style= "margin:0;">
+           <img id="imgPan1" src="${ordre.src}">
+         </figure>
+         <p class = "priceHidden"> ${ordre.pricePro} </p>
+         <p>${ordre.timesPro}</p>
+      </div>
+      `;
     }
 
 }

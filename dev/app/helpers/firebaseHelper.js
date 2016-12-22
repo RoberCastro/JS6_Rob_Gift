@@ -25,7 +25,7 @@ export class FireBaseHelper {
   loadData(){
     return new Promise((resolve, reject)=>{
       this.database.ref('localOrder').on('child_added', (snapshot)=> {
-          console.log('child added-> ', snapshot.val());
+          //console.log('child added-> ', snapshot.val());
 
           this.dbData.push(snapshot.val());
           // les valeur sont contenu dans snapshot.val()

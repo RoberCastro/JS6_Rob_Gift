@@ -19,8 +19,6 @@ export class HomePage {
     this.emptyBoxF();
   }
 
-
-
   initUI(){
 
     //Iniciate the variable Q to the value in the html
@@ -51,7 +49,6 @@ export class HomePage {
     this.clickCommandeQt(priceCommande,timesCommande, totalPricePackage)
 
     Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
-    console.log($("#totalPriceCommande")[0].innerHTML)
 
   }
 
@@ -68,14 +65,16 @@ export class HomePage {
       var sEmail = $('#txtEmail').val();
       // Checking Empty Fields
       if ($.trim(sEmail).length == 0) {
+          e.preventDefault();
           alert('Remplissez le champ email');
       }
       if (this.validateEmail(sEmail)) {
+        e.preventDefault();
         Materialize.toast('Email ok', 4000) // 4000 is the duration of the toast
       }
       else {
+        e.preventDefault();
           alert('Invalid Email Address');
-          e.preventDefault();
       }
 
       var comLocalStorage = JSON.parse(localStorage.getItem("localOrder"));
@@ -93,6 +92,7 @@ export class HomePage {
   emptyBoxF(){
     $("#emptyBox")[0].addEventListener('click', ()=>{
 
+      e.preventDefault();
       localStorage.removeItem("localOrder");
       this.initUI();
 
@@ -193,6 +193,7 @@ export class HomePage {
 
           localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
             idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
+            src: event.target.parentElement.previousElementSibling.getAttribute('src'),
             timesPro: 1,
             pricePro: priceProduct
           };
@@ -222,6 +223,7 @@ export class HomePage {
             localOrder = JSON.parse(localStorage.getItem("localOrder"));
             localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
               idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
+              src: event.target.parentElement.previousElementSibling.getAttribute('src'),
               timesPro: qProduct,
               pricePro: priceProduct
             };
@@ -253,6 +255,7 @@ export class HomePage {
                 localOrder = JSON.parse(localStorage.getItem("localOrder"));
                 localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
                   idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
+                  src: event.target.parentElement.previousElementSibling.getAttribute('src'),
                   timesPro: qProduct,
                   pricePro: priceProduct
                 };
@@ -382,7 +385,6 @@ export class HomePage {
     let formInput = $('#txtEmail').val();
 
     if($('#txtEmail').val().length>0){
-      console.log('load AdminPage')
       new AdminPage( this.appBody, formInput);
     }
   }
