@@ -19,6 +19,7 @@ export class HomePage {
     this.emptyBoxF();
   }
 
+
   initUI(){
 
     //Iniciate the variable Q to the value in the html
