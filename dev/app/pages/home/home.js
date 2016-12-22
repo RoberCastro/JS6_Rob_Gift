@@ -16,50 +16,10 @@ export class HomePage {
     this.pageTitle = 'Hello world! Hello Roberto';
     this.initUI();
     this.fFireBaseHelper();
+    this.emptyBoxF();
   }
 
-  fFireBaseHelper(){
 
-    //We instanciate the Firebase class
-    let dataBaseCastro = new FireBaseHelper();
-
-    //In the case the user send the order we save in the database
-    $("#sendOrder")[0].addEventListener('click', ()=>{
-
-      var sEmail = $('#txtEmail').val();
-      // Checking Empty Fields
-      if ($.trim(sEmail).length == 0) {
-          alert('Remplissez le champ email');
-          e.preventDefault();
-      }
-      if (this.validateEmail(sEmail)) {
-          alert('Nice!! your Email is valid, now you can continue..');
-      }
-      else {
-          alert('Invalid Email Address');
-          e.preventDefault();
-      }
-
-      var comLocalStorage = JSON.parse(localStorage.getItem("localOrder"));
-      dataBaseCastro.addObjectToBase({
-        order: comLocalStorage,
-        nbOrder: $("#timesCommande")[0].innerHTML,
-        mail: $("input[name='email']").val()
-      });
-      alert("Bien envoyé")
-    })
-  }
-
-  validateEmail(sEmail) {
-  var filter = /^[\w-.+]+@[a-zA-Z0-9.-]+.[a-zA-z0-9]{2,4}$/;
-
-  if (filter.test(sEmail)) {
-  return true;
-  }
-  else {
-  return false;
-  }
-  }
 
   initUI(){
 
@@ -93,6 +53,61 @@ export class HomePage {
     Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
     console.log($("#totalPriceCommande")[0].innerHTML)
 
+  }
+
+  fFireBaseHelper(){
+
+    //We instanciate the Firebase class
+    let dataBaseCastro = new FireBaseHelper();
+
+    //In the case the user send the order we save in the database
+    $("#sendOrder")[0].addEventListener('click', (e)=>{
+
+      e.preventDefault();
+
+      var sEmail = $('#txtEmail').val();
+      // Checking Empty Fields
+      if ($.trim(sEmail).length == 0) {
+          alert('Remplissez le champ email');
+      }
+      if (this.validateEmail(sEmail)) {
+        Materialize.toast('Email ok', 4000) // 4000 is the duration of the toast
+      }
+      else {
+          alert('Invalid Email Address');
+          e.preventDefault();
+      }
+
+      var comLocalStorage = JSON.parse(localStorage.getItem("localOrder"));
+      console.log(comLocalStorage)
+      dataBaseCastro.addObjectToBase({
+        order: comLocalStorage,
+        nbOrder: $("#timesCommande")[0].innerHTML,
+        mail: $("input[name='email']").val()
+      });
+
+      alert("Bien envoyé")
+    })
+  }
+
+  emptyBoxF(){
+    $("#emptyBox")[0].addEventListener('click', ()=>{
+
+      localStorage.removeItem("localOrder");
+      this.initUI();
+
+    })
+  }
+
+  validateEmail(sEmail) {
+    var filter = /^[\w-.+]+@[a-zA-Z0-9.-]+.[a-zA-z0-9]{2,4}$/;
+
+    if (filter.test(sEmail)) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   dessinerPanier(priceCommande, timesCommande, totalPricePackage) {
@@ -137,14 +152,17 @@ export class HomePage {
         'click',
         event=>{
 
+          event.preventDefault();
+
           this.clickFigure(event);
           //console.log(event)
           this.clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage, localOrder);
           //this.dessinerPanier();
-          }
-        )
-      }
+        }
+      )
     }
+  }
+
 
   clickPlusLess(event, vQ, priceProduct, priceCommande, timesCommande, totalPricePackage, localOrder){
 
@@ -167,7 +185,11 @@ export class HomePage {
         //If the product don't exist in the list
         if(!document.getElementById(event.target.parentElement.previousElementSibling.getAttribute('data-id')) && event.target.innerHTML == '+'){
 
-          localOrder = JSON.parse(localStorage.getItem("localOrder"));
+
+          if(JSON.parse(localStorage.getItem("localOrder"))){
+            localOrder = JSON.parse(localStorage.getItem("localOrder"));
+          }
+
 
           localOrder[event.target.parentElement.previousElementSibling.getAttribute('data-id')] = {
             idPro: event.target.parentElement.previousElementSibling.getAttribute('data-id'),
@@ -250,7 +272,7 @@ export class HomePage {
       document.getElementById('commandeColumn').addEventListener(
         'click',
         eventCommande=>{
-
+          eventCommande.preventDefault();
           priceCommande = parseInt(document.getElementById('totalPriceCommande').innerHTML,10)
           timesCommande = parseInt(document.getElementById('timesCommande').innerHTML,10)
           document.getElementById('timesCommande').innerHTML = 1;
@@ -361,7 +383,7 @@ export class HomePage {
 
     if($('#txtEmail').val().length>0){
       console.log('load AdminPage')
-      new AdminPage(this.appBody,formInput);
+      new AdminPage( this.appBody, formInput);
     }
   }
 
@@ -396,9 +418,11 @@ export class HomePage {
 
          <div class="sendOrder">
             <button class="btn" id="sendOrder">Envoyer commande</button>
+            <button class="btn" id="emptyBox">Vider le coffre</button>
             <p>
               <label for="email">Email:</label><input id="txtEmail" type="email" name="email" value="" placeholder="votreemail.ch"/>
             </p>
+
          </div>
 
          <div class="grid-container outline">

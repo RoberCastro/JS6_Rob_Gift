@@ -10,23 +10,32 @@ export class FireBaseHelper {
 
   constructor(){
 
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCpFgr84epTyPOdUGgVMLpxLDOE4pAGQzo",
-      authDomain: "castrogastro-858c3.firebaseapp.com",
-      databaseURL: "https://castrogastro-858c3.firebaseio.com",
-      storageBucket: "castrogastro-858c3.appspot.com",
-      messagingSenderId: "508588633189"
-    };
-    firebase.initializeApp(config);
     // Get a reference to the database service
+    this.database = firebase.database();
+    this.dbData = [];
+
    }
 
   addObjectToBase(product){
 
-    let database = firebase.database();
     // l'envoyer dans la collection "products" sur Firebase
-    database.ref('localOrder').push(product);
+    this.database.ref('localOrder').push(product);
   }
+
+  loadData(){
+    return new Promise((resolve, reject)=>{
+      this.database.ref('localOrder').on('child_added', (snapshot)=> {
+          console.log('child added-> ', snapshot.val());
+
+          this.dbData.push(snapshot.val());
+          // les valeur sont contenu dans snapshot.val()
+          // et passée à une fonction pour être traitée plus loin...
+          //  displayProductsInList(snapshot)
+          resolve(this.dbData)
+      });
+    })
+
+  }
+
 
 }

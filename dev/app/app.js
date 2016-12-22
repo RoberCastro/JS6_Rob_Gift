@@ -6,6 +6,8 @@
 * @Last modified time: 13-12-2016
 */
 import { HomePage } from './pages/home/home';
+import { API_KEY_FIREBASE } from './helpers/apikeyfirebase';
+
 
 class MyApp {
 
@@ -14,6 +16,17 @@ class MyApp {
   }
 
   start(){
+
+    // Initialize Firebase
+    var config = {
+      apiKey: API_KEY_FIREBASE,
+      authDomain: "castrogastro-858c3.firebaseapp.com",
+      databaseURL: "https://castrogastro-858c3.firebaseio.com",
+      storageBucket: "castrogastro-858c3.appspot.com",
+      messagingSenderId: "508588633189"
+    };
+    firebase.initializeApp(config);
+
     // init HomePage
     let homePage = new HomePage(this.appBody);
   }
