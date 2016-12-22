@@ -13,7 +13,7 @@ export class HomePage {
 
   constructor(appBody){
     this.appBody = appBody
-    this.pageTitle = 'Hello world! Hello Roberto';
+    this.pageTitle = 'Welcome to Gastro Castro';
     this.initUI();
     this.fFireBaseHelper();
     this.emptyBoxF();
@@ -84,7 +84,9 @@ export class HomePage {
       console.log(comLocalStorage)
       dataBaseCastro.addObjectToBase({
         order: comLocalStorage,
+        priceOrder: $("#totalPriceCommande")[0].innerHTML,
         nbOrder: $("#timesCommande")[0].innerHTML,
+        totalPrice: $("#totalPricePackage")[0].innerHTML,
         mail: $("input[name='email']").val()
       });
 
@@ -400,8 +402,7 @@ export class HomePage {
 
     let vSkeleton = `
     <section>
-      <img class="materialboxed" width="1024px" height="200px" src="./src/images/vinas2.jpeg">
-        <h1>${this.pageTitle}</h1>
+        <h3 class="center">${this.pageTitle}</h3>
         <form>
           <nav class="navBarTop">
            <div class="nav-wrapper" class="navBarTop" >
@@ -436,10 +437,10 @@ export class HomePage {
          <div class="grid-container outline">
              <div id="buyList" class="row">
                <div class="col-105" id="commandeColumn">
-                  <p>Total coffre</p></br>
+                  <p>Coffre</p>
                   <p id="totalPriceCommande"></p></br>
-                  <p id="timesCommande">Quantité</p>
-                  <p id="totalPricePackage"></p></br>
+                  <p>Qté :</p><p id="timesCommande">Quantité</p></br>
+                  <p>Total :</p><p id="totalPricePackage"></p></br>
                   <div class="ligneBt"><button id="moins">--</button><button id="plus">+</button></div>
                </div>
              </div>
@@ -583,100 +584,9 @@ export class HomePage {
                   <div  id="imgClick1" class="col-1"><p id="textExplicatifHam"></p></div>
                </div>
             </div>
-
-             <div class="row">
-                 <div class="col-2"><p>col-2</p></div>
-                 <div class="col-2"><p>col-2</p></div>
-                 <div class="col-2"><p>col-2</p></div>
-             </div>
-             <div class="row">
-                 <div class="col-3"><p>col-3</p></div>
-                 <div class="col-3"><p>col-3</p></div>
-             </div>
-             <div class="row">
-                 <div class="col-4"><p>col-4</p></div>
-                 <div class="col-2"><p>col-2</p></div>
-             </div>
-             <div class="row">
-                 <div class="col-5"><p>col-5</p></div>
-                 <div class="col-1"><p>col-1</p></div>
-             </div>
-             <div class="row">
-                 <div class="col-6"><p>col-6</p></div>
-             </div>
-         </div>
-
-          <a class="btn" onclick="Materialize.toast('I am a toast', 4000)">Toast!</a>
-            <button>Login</button>
-          <div>
-            <div>
-
-                <!-- Dropdown Structure -->
-                <ul id='dropdown1' class='dropdown-content' class="col s6">
-                  <li><a href="#!">Ibérico</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Pata negra</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Jabugo</a></li>
-                </ul>
-            </div>
-            <div>
-
-                <!-- Dropdown Trigger -->
-                <a class='dropdown-button btn' href='#' data-activates='dropdown2' class="col s2">Huile d'olive</a>
-
-                <!-- Dropdown Structure -->
-                <ul id='dropdown2' class='dropdown-content'>
-                  <li><a href="#!">Normal</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Virgen</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Virgen extra</a></li>
-                </ul>
-            </div>
-            <div>
-                <!-- Dropdown Trigger -->
-                <a class='dropdown-button btn' href='#' data-activates='dropdown3' class="col s2">Fromage manchego</a>
-
-                <!-- Dropdown Structure -->
-                <ul id='dropdown3' class='dropdown-content'>
-                  <li><a href="#!">Curado</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Semicurado</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Tierno</a></li>
-                </ul>
-            </div>
-            <div>
-                <!-- Dropdown Trigger -->
-                <a class='dropdown-button btn' href='#' data-activates='dropdown4'>Confisserie</a>
-
-                <!-- Dropdown Structure -->
-                <ul id='dropdown4' class='dropdown-content'>
-                  <li><a href="#!">Turron</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Sobaos</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">Polvorones</a></li>
-                </ul>
-            </div>
-            <div>
-                <!-- Dropdown Trigger -->
-                <a class='dropdown-button btn' href='#' data-activates='dropdown5'>Brandy de Jerez</a>
-
-                <!-- Dropdown Structure -->
-                <ul id='dropdown5' class='dropdown-content'>
-                  <li><a href="#!">LA BOTA DE BRANDY Nº 29</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">TORRES JAIME I</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#!">PEINADO SOLERA 100 AÑOS</a></li>
-                </ul>
-
-            </div>
           </div>
 
-        </form>
+         </form>
       </section>`;
       return vSkeleton;
   }

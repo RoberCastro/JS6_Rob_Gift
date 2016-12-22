@@ -96,7 +96,9 @@ export class AdminPage {
             let divOrdre = document.createElement('div')
             divOrdre.innerHTML = `Liste d'achat numéro : ${id} </br>
                                   Client mail : ${response[id].mail}</br>
-                                  Quantité de panniers : ${response[id].nbOrder}</br>`;
+                                  Prix du pannier : ${response[id].priceOrder}</br>
+                                  Quantité de panniers : ${response[id].nbOrder}</br>
+                                  Prix total : ${response[id].totalPrice}</br>`;
             divOrdre.setAttribute('id',`liste${id}`)
             divOrdre.setAttribute('style', 'display:block; overflow:auto;')
             divOrdre.setAttribute('class', 'divProd')
