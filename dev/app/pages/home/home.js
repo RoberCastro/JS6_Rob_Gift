@@ -68,6 +68,7 @@ export class HomePage {
       if ($.trim(sEmail).length == 0) {
           e.preventDefault();
           alert('Remplissez le champ email');
+          return false;
       }
       if (this.validateEmail(sEmail)) {
         e.preventDefault();
@@ -76,6 +77,7 @@ export class HomePage {
       else {
         e.preventDefault();
           alert('Invalid Email Address');
+          return false;
       }
 
       var comLocalStorage = JSON.parse(localStorage.getItem("localOrder"));
@@ -93,7 +95,7 @@ export class HomePage {
   emptyBoxF(){
     $("#emptyBox")[0].addEventListener('click', ()=>{
 
-      e.preventDefault();
+      //e.preventDefault();
       localStorage.removeItem("localOrder");
       this.initUI();
 
@@ -381,12 +383,15 @@ export class HomePage {
 
   onLogin(event){
 
-    event.preventDefault()
     let validationInput = 0
     let formInput = $('#txtEmail').val();
 
+    event.preventDefault()
     if($('#txtEmail').val().length>0){
       new AdminPage( this.appBody, formInput);
+    }else{
+      event.preventDefault();
+      alert("Hello", "Introduisez votre mail")
     }
   }
 
