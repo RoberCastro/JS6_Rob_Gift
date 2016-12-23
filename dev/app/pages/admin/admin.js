@@ -93,7 +93,7 @@ export class AdminPage {
             ordre = response[id].order;
 
             let divOrdre = document.createElement('div')
-            divOrdre.innerHTML = `Liste d'achat numéro : ${id} </br>
+            divOrdre.innerHTML = `      <hr/>Liste d'achat numéro : ${id} </br>
                                   Client mail : ${response[id].mail}</br>
                                   Prix du pannier : ${response[id].priceOrder}</br>
                                   Quantité de panniers : ${response[id].nbOrder}</br>
@@ -127,6 +127,7 @@ export class AdminPage {
          <p class = "priceHidden"> ${ordre.pricePro} </p>
          <p>${ordre.timesPro}</p>
       </div>
+
       `;
     }
 }
